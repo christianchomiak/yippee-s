@@ -5,9 +5,29 @@
   </Configs>
   <NewExtensions/>
   <sounds name="sound"/>
-  <sprites name="sprites"/>
+  <sprites name="sprites">
+    <sprite>sprites\s_Road</sprite>
+    <sprite>sprites\s_Car</sprite>
+    <sprite>sprites\s_Building</sprite>
+  </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\f_GetDeltaTime.gml</script>
+    <script>scripts\f_SetupScreen.gml</script>
+    <script>scripts\f_DrawGrid.gml</script>
+    <script>scripts\f_DrawGrid2.gml</script>
+    <script>scripts\f_SetObjectInPosition.gml</script>
+  </scripts>
+  <objects name="objects">
+    <object>objects\object0</object>
+    <object>objects\o_CityManager</object>
+    <object>objects\o_Car</object>
+    <object>objects\o_RoadTile</object>
+  </objects>
+  <rooms name="rooms">
+    <room>rooms\r_Test</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>
