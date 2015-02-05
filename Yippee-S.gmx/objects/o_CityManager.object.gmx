@@ -28,6 +28,8 @@
             <string>///Creation
 global.CityManager = self.id;
 
+randomize();
+
 IsSelectionPhase = true;
 
 NumberOfRows = 6;

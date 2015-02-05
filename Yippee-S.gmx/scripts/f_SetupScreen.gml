@@ -1,7 +1,5 @@
 ///Window setup
 
-randomize();
-
 window_set_fullscreen(false);
 
 
