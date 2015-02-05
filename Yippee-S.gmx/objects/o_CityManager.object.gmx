@@ -27,13 +27,117 @@
             <kind>1</kind>
             <string>///Creation
 
-NumberOfRows = 0;
-NumberOfColumns = 0;
+NumberOfRows = 6;
+NumberOfColumns = 8;
 
-StartingX = 0;
-StartingY = 0;
+CityWidth = room_width * 0.75;
+CityHeight = room_height * 0.75;
 
-CityGrid = ds_grid_create(NumberOfColumns, NumberOfRows);
+CellSize = min(CityWidth / NumberOfColumns, CityHeight / NumberOfRows);//96;
+
+SideBorderSize = (room_width - NumberOfColumns * CellSize) / 2;//CellSize / 2;
+TopBorderSize = (room_height - NumberOfRows * CellSize) / 2;//CellSize / 2;
+
+StartingX = SideBorderSize;
+StartingY = TopBorderSize;
+
+global.CityGrid = ds_grid_create(NumberOfColumns, NumberOfRows);
+
+for (var r = 0; r &lt; NumberOfRows; r++)
+{
+    for (var c = 0; c &lt; NumberOfColumns; c++)
+    {
+        var xx = f_PositionInWorld(StartingX, c, CellSize, true);
+        var yy = f_PositionInWorld(StartingY, r, CellSize, true);
+        CityGrid[c, r] = instance_create(xx, yy, o_RoadTile);
+        CityGrid[c, r].image_xscale = CellSize / sprite_get_width(CityGrid[c, r].image_index); 
+        CityGrid[c, r].image_yscale = CityGrid[c, r].image_xscale; 
+        CityGrid[c, r].row = r;
+        CityGrid[c, r].column = c;
+    }
+}
+
+
+DestinationRow = 3;
+DestinationColumn = 3;
+
+DestinationPositionX = f_PositionInWorld(StartingX, DestinationColumn, CellSize, true);
+DestinationPositionY = f_PositionInWorld(StartingY, DestinationRow, CellSize, true);
+
+
+CarStartingRow = 0;
+CarStartingColumn = 0;
+
+CarPositionX = f_PositionInWorld(StartingX, CarStartingColumn, CellSize, true);
+CarPositionY = f_PositionInWorld(StartingY, CarStartingRow, CellSize, true);
+
+
+global.SelectedPath = ds_list_create();
+f_AddTileToPath(CityGrid[CarStartingColumn,CarStartingRow]);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if keyboard_check_pressed(vk_escape)
+{
+    game_end();
+}
+else if keyboard_check_pressed(ord('R'))
+{
+    game_restart();
+}
+
+/*for (var r = 0; r &lt; 5; r++)
+{
+    for (var c = 0; c &lt; 7; c++)
+    {
+        
+        CityGrid[c, r]
+    }
+}*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///OnDestroy
+ds_grid_destroy(CityGrid);
+ds_list_destroy(global.SelectedPath);
 </string>
           </argument>
         </arguments>
@@ -56,9 +160,16 @@ CityGrid = ds_grid_create(NumberOfColumns, NumberOfRows);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>f_DrawGrid(0, 0, room_width, room_height, 64, 0, 0, c_black, 1);
+            <string>
+f_DrawGrid(StartingX, StartingY, StartingX + NumberOfColumns * CellSize, StartingY + NumberOfRows * CellSize, CellSize, 0, 0, c_black, 1);
 
-draw_sprite(s_Car, 0, 32+64, 32+256);
+//f_DrawGrid(StartingX, StartingY, room_width - SideBorderSize, room_height - TopBorderSize, CellSize, 0, 0, c_black, 1);
+//f_DrawGrid(0, 0, room_width, room_height, 64, 0, 0, c_red, 1);
+
+draw_sprite(s_Car, 0, CarPositionX, CarPositionY);
+draw_sprite(s_Destiny, 0, DestinationPositionX, DestinationPositionY);
+
+draw_text(room_width / 2, room_height * 0.025, string(ds_list_size(global.SelectedPath)));
 </string>
           </argument>
         </arguments>

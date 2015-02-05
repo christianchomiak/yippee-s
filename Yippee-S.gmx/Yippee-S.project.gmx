@@ -8,6 +8,7 @@
   <sprites name="sprites">
     <sprite>sprites\s_Road</sprite>
     <sprite>sprites\s_Car</sprite>
+    <sprite>sprites\s_Destiny</sprite>
     <sprite>sprites\s_Building</sprite>
   </sprites>
   <backgrounds name="background"/>
@@ -18,6 +19,12 @@
     <script>scripts\f_DrawGrid.gml</script>
     <script>scripts\f_DrawGrid2.gml</script>
     <script>scripts\f_SetObjectInPosition.gml</script>
+    <script>scripts\f_PositionInWorld.gml</script>
+    <script>scripts\f_AddTileToPath.gml</script>
+    <script>scripts\f_RemoveLastTileFromPath.gml</script>
+    <script>scripts\f_CheckIfTileIsInPath.gml</script>
+    <script>scripts\f_DeletePathUntilTile.gml</script>
+    <script>scripts\f_CheckIfPathIsCoherent.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\object0</object>
