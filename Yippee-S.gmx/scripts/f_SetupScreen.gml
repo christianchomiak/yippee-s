@@ -1,5 +1,7 @@
 ///Window setup
 
+randomize();
+
 window_set_fullscreen(false);
 
 
@@ -32,4 +34,3 @@ view_wport = screen_width;
 view_hport = screen_height;
 
 surface_resize(application_surface, screen_width, screen_height);
-

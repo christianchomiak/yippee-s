@@ -7,7 +7,106 @@
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
-  <events/>
+  <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Creation
+
+CurrentPathIndex = 1;
+HasArrived = false;
+
+depth = -5;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if !HasArrived
+{
+    var PathLength = ds_list_size(global.CityManager.SelectedPath);
+    
+    if CurrentPathIndex &lt; 0 or CurrentPathIndex &gt;= PathLength
+    {
+        HasArrived = true;
+        show_message("ARRIVED");
+        speed = 0;
+        exit;
+    }
+    
+    var currentTarget = ds_list_find_value(global.CityManager.SelectedPath, CurrentPathIndex);
+  
+    var vel = 128;
+    
+    var dirX = currentTarget.x - x;
+    var dirY = currentTarget.y - y;
+    
+    //vspeed = sign(dirY) * vel;
+    //hspeed = sign(dirX) * vel;
+    
+    x += sign(dirX) * vel * f_GetDeltaTime();
+    y += sign(dirY) * vel * f_GetDeltaTime();
+    
+    var newDirX = currentTarget.x - x;
+    var newDirY = currentTarget.y - y;
+    
+    if (dirX &gt; 0 &amp;&amp; newDirX &lt; 0) or (dirY &gt; 0 &amp;&amp; newDirY &lt; 0)
+    {        
+        x = currentTarget.x;
+        y = currentTarget.y;
+               
+        CurrentPathIndex++;
+        exit;
+    }
+    
+    //move_towards_point(currentTarget.x, currentTarget.y, vel);
+    
+    var distance = sqr((newDirX*newDirX) + (newDirY*newDirY));
+    if distance &lt; vel * f_GetDeltaTime()
+    {
+        x = currentTarget.x;
+        y = currentTarget.y;
+               
+        CurrentPathIndex++;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+  </events>
   <PhysicsObject>0</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>0</PhysicsObjectShape>
@@ -19,5 +118,8 @@
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
   <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
-  <PhysicsShapePoints/>
+  <PhysicsShapePoints>
+    <point>8,8</point>
+    <point>8,8</point>
+  </PhysicsShapePoints>
 </object>

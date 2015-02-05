@@ -26,6 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>///Creation
+global.CityManager = self.id;
+
+IsSelectionPhase = true;
 
 NumberOfRows = 6;
 NumberOfColumns = 8;
@@ -41,7 +44,7 @@ TopBorderSize = (room_height - NumberOfRows * CellSize) / 2;//CellSize / 2;
 StartingX = SideBorderSize;
 StartingY = TopBorderSize;
 
-global.CityGrid = ds_grid_create(NumberOfColumns, NumberOfRows);
+CityGrid = ds_grid_create(NumberOfColumns, NumberOfRows);
 
 for (var r = 0; r &lt; NumberOfRows; r++)
 {
@@ -58,21 +61,27 @@ for (var r = 0; r &lt; NumberOfRows; r++)
 }
 
 
-DestinationRow = 3;
-DestinationColumn = 3;
+CarStartingRow = irandom_range(0, NumberOfRows - 1);
+CarStartingColumn = irandom_range(0, NumberOfColumns - 1);
+CarPositionX = f_PositionInWorld(StartingX, CarStartingColumn, CellSize, true);
+CarPositionY = f_PositionInWorld(StartingY, CarStartingRow, CellSize, true);
+
+var doneWithDestination = false;
+while !doneWithDestination
+{
+    DestinationRow = irandom_range(0, NumberOfRows - 1);
+    DestinationColumn = irandom_range(0, NumberOfColumns - 1);
+    
+    if DestinationRow != CarStartingRow or DestinationColumn != CarStartingColumn
+        doneWithDestination = true;
+}
 
 DestinationPositionX = f_PositionInWorld(StartingX, DestinationColumn, CellSize, true);
 DestinationPositionY = f_PositionInWorld(StartingY, DestinationRow, CellSize, true);
 
 
-CarStartingRow = 0;
-CarStartingColumn = 0;
 
-CarPositionX = f_PositionInWorld(StartingX, CarStartingColumn, CellSize, true);
-CarPositionY = f_PositionInWorld(StartingY, CarStartingRow, CellSize, true);
-
-
-global.SelectedPath = ds_list_create();
+SelectedPath = ds_list_create();
 f_AddTileToPath(CityGrid[CarStartingColumn,CarStartingRow]);
 </string>
           </argument>
@@ -96,7 +105,8 @@ f_AddTileToPath(CityGrid[CarStartingColumn,CarStartingRow]);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if keyboard_check_pressed(vk_escape)
+            <string>///Keyboard input
+if keyboard_check_pressed(vk_escape)
 {
     game_end();
 }
@@ -113,6 +123,31 @@ else if keyboard_check_pressed(ord('R'))
         CityGrid[c, r]
     }
 }*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if global.CityManager.IsSelectionPhase &amp;&amp; f_CheckIfTileIsInPath(global.CityManager.CityGrid[DestinationColumn, DestinationRow])
+{
+    global.CityManager.IsSelectionPhase = false;
+    car = instance_create(CarPositionX, CarPositionY, o_Car);
+}
 </string>
           </argument>
         </arguments>
@@ -137,7 +172,7 @@ else if keyboard_check_pressed(ord('R'))
             <kind>1</kind>
             <string>///OnDestroy
 ds_grid_destroy(CityGrid);
-ds_list_destroy(global.SelectedPath);
+ds_list_destroy(SelectedPath);
 </string>
           </argument>
         </arguments>
@@ -166,10 +201,14 @@ f_DrawGrid(StartingX, StartingY, StartingX + NumberOfColumns * CellSize, Startin
 //f_DrawGrid(StartingX, StartingY, room_width - SideBorderSize, room_height - TopBorderSize, CellSize, 0, 0, c_black, 1);
 //f_DrawGrid(0, 0, room_width, room_height, 64, 0, 0, c_red, 1);
 
-draw_sprite(s_Car, 0, CarPositionX, CarPositionY);
+if IsSelectionPhase
+    draw_sprite(s_Car, 0, CarPositionX, CarPositionY);
+else
+    draw_text(car.x, car.y + 16, string(car.CurrentPathIndex));
+    
 draw_sprite(s_Destiny, 0, DestinationPositionX, DestinationPositionY);
 
-draw_text(room_width / 2, room_height * 0.025, string(ds_list_size(global.SelectedPath)));
+draw_text(room_width / 2, room_height * 0.025, string(ds_list_size(global.CityManager.SelectedPath)));
 </string>
           </argument>
         </arguments>

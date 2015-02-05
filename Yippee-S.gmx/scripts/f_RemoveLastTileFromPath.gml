@@ -1,6 +1,6 @@
 ///f_RemoveLastTileFromPath()
 
-var PathLength = ds_list_size(global.SelectedPath);
+var PathLength = ds_list_size(global.CityManager.SelectedPath);
 
 if PathLength == 0
 {    
@@ -9,9 +9,9 @@ if PathLength == 0
 
 var LastIndex = PathLength - 1;
 
-var LastItem = ds_list_find_value(global.SelectedPath, LastIndex);
+var LastItem = ds_list_find_value(global.CityManager.SelectedPath, LastIndex);
 LastItem.image_alpha = 1;
 
-ds_list_delete(global.SelectedPath, LastIndex);
+ds_list_delete(global.CityManager.SelectedPath, LastIndex);
 
 return LastItem.id;
