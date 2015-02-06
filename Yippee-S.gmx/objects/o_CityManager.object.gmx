@@ -30,10 +30,17 @@ global.CityManager = self.id;
 
 randomize();
 
+/*Game status*/
+
 IsSelectionPhase = true;
+
+/*City Configuration*/
 
 NumberOfRows = 6;
 NumberOfColumns = 8;
+
+
+NumberOfTrafficJams = irandom_range(0, max(0, NumberOfRows * NumberOfColumns - 2) * 0.5);
 
 CityWidth = room_width * 0.75;
 CityHeight = room_height * 0.75;
@@ -48,21 +55,8 @@ StartingY = TopBorderSize;
 
 CityGrid = ds_grid_create(NumberOfColumns, NumberOfRows);
 
-for (var r = 0; r &lt; NumberOfRows; r++)
-{
-    for (var c = 0; c &lt; NumberOfColumns; c++)
-    {
-        var xx = f_PositionInWorld(StartingX, c, CellSize, true);
-        var yy = f_PositionInWorld(StartingY, r, CellSize, true);
-        CityGrid[c, r] = instance_create(xx, yy, o_RoadTile);
-        CityGrid[c, r].image_xscale = CellSize / sprite_get_width(CityGrid[c, r].image_index); 
-        CityGrid[c, r].image_yscale = CityGrid[c, r].image_xscale; 
-        CityGrid[c, r].row = r;
-        CityGrid[c, r].column = c;
-    }
-}
 
-
+/*Car position*/
 CarStartingRow = irandom_range(0, NumberOfRows - 1);
 CarStartingColumn = irandom_range(0, NumberOfColumns - 1);
 CarPositionX = f_PositionInWorld(StartingX, CarStartingColumn, CellSize, true);
@@ -80,6 +74,99 @@ while !doneWithDestination
 
 DestinationPositionX = f_PositionInWorld(StartingX, DestinationColumn, CellSize, true);
 DestinationPositionY = f_PositionInWorld(StartingY, DestinationRow, CellSize, true);
+
+
+var AvailableTrafficJamSpots = ds_list_create();
+
+
+/*City creation*/
+for (var r = 0; r &lt; NumberOfRows; r++)
+{
+    for (var c = 0; c &lt; NumberOfColumns; c++)
+    {
+        var xx = f_PositionInWorld(StartingX, c, CellSize, true);
+        var yy = f_PositionInWorld(StartingY, r, CellSize, true);
+        CityGrid[c, r] = instance_create(xx, yy, o_RoadTile);
+        CityGrid[c, r].image_xscale = CellSize / sprite_get_width(CityGrid[c, r].image_index); 
+        CityGrid[c, r].image_yscale = CityGrid[c, r].image_xscale; 
+        CityGrid[c, r].row = r;
+        CityGrid[c, r].column = c;
+        
+        /*if (c != CarStartingColumn || r != CarStartingRow) &amp;&amp; 
+           (c != DestinationColumn || r != DestinationRow) &amp;&amp;
+           r &lt; NumberOfRows - 1 &amp;&amp; c &lt; NumberOfColumns - 1*/
+        if (c != CarStartingColumn || r != CarStartingRow) &amp;&amp; 
+           (c != DestinationColumn || r != DestinationRow)
+           //&amp;&amp; r &lt; NumberOfRows - 1 &amp;&amp; c &lt; NumberOfColumns - 1
+        {
+            ds_list_add(AvailableTrafficJamSpots, CityGrid[c, r]);
+        }
+    }
+}
+
+ds_list_shuffle(AvailableTrafficJamSpots);
+ListOfTrafficJams = ds_list_create();
+
+for (var j = 0; j &lt; NumberOfTrafficJams; j++)
+{
+    var CurrentJamSite = ds_list_find_value(AvailableTrafficJamSpots, j);
+    var NewJam;
+    
+    var IsOnTopBottomBorder = CurrentJamSite.row == 0 or CurrentJamSite.row == NumberOfRows - 1;
+    var IsOnLeftRightBorder = CurrentJamSite.column == 0 or CurrentJamSite.column == NumberOfColumns - 1
+    var IsOnCorner = IsOnTopBottomBorder and IsOnLeftRightBorder;
+    var IsOnBorder = IsOnTopBottomBorder or IsOnLeftRightBorder;
+    
+    if IsOnBorder
+    {   
+        if IsOnCorner 
+        {            
+            NewJam = instance_create(CurrentJamSite.x, CurrentJamSite.y, o_TrafficJam); 
+            NewJam.image_index = 1;
+            
+            if CurrentJamSite.row == 0 and CurrentJamSite.column == 0
+                NewJam.image_angle = 0;
+            else if CurrentJamSite.row == NumberOfRows - 1 and CurrentJamSite.column == 0
+                NewJam.image_angle = 90;
+            else if CurrentJamSite.row == 0 and NumberOfColumns - 1
+                NewJam.image_angle = 270;
+            else
+                NewJam.image_angle = 180;            
+        }
+        else if IsOnTopBottomBorder
+            NewJam = instance_create(CurrentJamSite.x, CurrentJamSite.y, o_TrafficJam);  
+        else if IsOnLeftRightBorder
+        {
+            NewJam = instance_create(CurrentJamSite.x, CurrentJamSite.y , o_TrafficJam);
+            NewJam.image_angle = 90;
+        }
+    }
+    else
+    {
+        if choose(true, false)
+        {
+            NewJam = instance_create(CurrentJamSite.x, CurrentJamSite.y , o_TrafficJam);
+            NewJam.image_angle = 90;
+        }
+        else
+        {
+            NewJam = instance_create(CurrentJamSite.x, CurrentJamSite.y, o_TrafficJam);    
+        }
+    }
+
+    NewJam.image_speed = 0;
+
+    
+    NewJam.image_xscale = CellSize / sprite_get_width(CurrentJamSite.image_index); 
+    NewJam.image_yscale = NewJam.image_xscale;
+    
+
+            
+    NewJam.image_alpha = 0.25;
+    NewJam.depth = -1;
+}
+
+ds_list_destroy(AvailableTrafficJamSpots);
 
 
 
@@ -175,6 +262,7 @@ else if keyboard_check_pressed(ord('R'))
             <string>///OnDestroy
 ds_grid_destroy(CityGrid);
 ds_list_destroy(SelectedPath);
+ds_list_destroy(ListOfTrafficJams);
 </string>
           </argument>
         </arguments>

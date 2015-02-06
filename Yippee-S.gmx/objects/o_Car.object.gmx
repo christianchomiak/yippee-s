@@ -68,6 +68,13 @@ depth = -5;
     var currentTarget = ds_list_find_value(global.CityManager.SelectedPath, CurrentPathIndex);
   
     var vel = 128;
+    var PossibleJam = instance_position(x, y, o_TrafficJam);
+    
+    if PossibleJam != noone
+    {
+        vel = 32;
+    }  
+    
     
     var dirX = currentTarget.x - x;
     var dirY = currentTarget.y - y;

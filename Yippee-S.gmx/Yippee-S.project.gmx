@@ -7,6 +7,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\s_Road</sprite>
+    <sprite>sprites\s_Traffic</sprite>
     <sprite>sprites\s_Car</sprite>
     <sprite>sprites\s_Destiny</sprite>
     <sprite>sprites\s_Building</sprite>
@@ -31,6 +32,7 @@
     <object>objects\o_CityManager</object>
     <object>objects\o_Car</object>
     <object>objects\o_RoadTile</object>
+    <object>objects\o_TrafficJam</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_Test</room>
