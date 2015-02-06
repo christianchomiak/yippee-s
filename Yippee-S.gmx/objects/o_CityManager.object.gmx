@@ -36,8 +36,8 @@ IsSelectionPhase = true;
 
 /*City Configuration*/
 
-NumberOfRows = 6;
-NumberOfColumns = 8;
+NumberOfRows = 6;    //4
+NumberOfColumns = 8; //6
 
 
 NumberOfTrafficJams = irandom_range(0, max(0, NumberOfRows * NumberOfColumns - 2) * 0.5);
@@ -155,20 +155,17 @@ for (var j = 0; j &lt; NumberOfTrafficJams; j++)
     }
 
     NewJam.image_speed = 0;
-
     
     NewJam.image_xscale = CellSize / sprite_get_width(CurrentJamSite.image_index); 
     NewJam.image_yscale = NewJam.image_xscale;
-    
-
             
-    NewJam.image_alpha = 0.25;
+    NewJam.image_alpha = 0.5; //choose(0.25, 0.5, 0.75, 1);
     NewJam.depth = -1;
 }
 
 ds_list_destroy(AvailableTrafficJamSpots);
 
-
+AccumulatedTime = 0;
 
 SelectedPath = ds_list_create();
 f_AddTileToPath(CityGrid[CarStartingColumn,CarStartingRow]);
@@ -236,6 +233,7 @@ else if keyboard_check_pressed(ord('R'))
 {
     global.CityManager.IsSelectionPhase = false;
     car = instance_create(CarPositionX, CarPositionY, o_Car);
+    car.Velocity = CellSize;
 }
 </string>
           </argument>
@@ -298,7 +296,9 @@ else
     
 draw_sprite(s_Destiny, 0, DestinationPositionX, DestinationPositionY);
 
-draw_text(room_width / 2, room_height * 0.025, string(ds_list_size(global.CityManager.SelectedPath)));
+draw_text(room_width / 2, room_height * 0.025, "Distance: " + string(ds_list_size(global.CityManager.SelectedPath) - 1));
+draw_text(room_width / 2, room_height * 0.045, "Time: " + string(global.CityManager.AccumulatedTime));
+draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.CityManager.CellSize));
 </string>
           </argument>
         </arguments>

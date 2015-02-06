@@ -10,7 +10,6 @@
     <sprite>sprites\s_Traffic</sprite>
     <sprite>sprites\s_Car</sprite>
     <sprite>sprites\s_Destiny</sprite>
-    <sprite>sprites\s_Building</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

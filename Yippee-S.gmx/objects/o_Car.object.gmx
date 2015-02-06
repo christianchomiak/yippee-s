@@ -29,6 +29,7 @@
 
 CurrentPathIndex = 1;
 HasArrived = false;
+Velocity = 0;
 
 depth = -5;
 </string>
@@ -67,14 +68,14 @@ depth = -5;
     
     var currentTarget = ds_list_find_value(global.CityManager.SelectedPath, CurrentPathIndex);
   
-    var vel = 128;
+    var vel = Velocity; //128;
     var PossibleJam = instance_position(x, y, o_TrafficJam);
     
     if PossibleJam != noone
     {
-        vel = 32;
-    }  
-    
+        //vel = Velocity * (1.1 - PossibleJam.image_alpha); //32;
+        vel = Velocity * 0.25; //32;
+    }    
     
     var dirX = currentTarget.x - x;
     var dirY = currentTarget.y - y;
@@ -82,6 +83,7 @@ depth = -5;
     //vspeed = sign(dirY) * vel;
     //hspeed = sign(dirX) * vel;
     
+    global.CityManager.AccumulatedTime += f_GetDeltaTime();
     x += sign(dirX) * vel * f_GetDeltaTime();
     y += sign(dirY) * vel * f_GetDeltaTime();
     
