@@ -9,7 +9,7 @@
   <bboxmode>0</bboxmode>
   <bbox_left>0</bbox_left>
   <bbox_right>127</bbox_right>
-  <bbox_top>35</bbox_top>
+  <bbox_top>0</bbox_top>
   <bbox_bottom>127</bbox_bottom>
   <HTile>0</HTile>
   <VTile>0</VTile>
@@ -22,5 +22,9 @@
   <frames>
     <frame index="0">images\s_Traffic_0.png</frame>
     <frame index="1">images\s_Traffic_1.png</frame>
+    <frame index="2">images\s_Traffic_2.png</frame>
+    <frame index="3">images\s_Traffic_3.png</frame>
+    <frame index="4">images\s_Traffic_4.png</frame>
+    <frame index="5">images\s_Traffic_5.png</frame>
   </frames>
 </sprite>
