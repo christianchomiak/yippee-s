@@ -12,6 +12,9 @@ var LastIndex = PathLength - 1;
 var LastItem = ds_list_find_value(global.CityManager.SelectedPath, LastIndex);
 LastItem.image_alpha = 1;
 //LastItem.image_blend = c_white;
+LastItem.IsSelected = false;
+
+LastItem.currentHighlightDirection = 0;
 
 ds_list_delete(global.CityManager.SelectedPath, LastIndex);
 

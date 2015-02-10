@@ -12,6 +12,7 @@
     <sprite>sprites\s_Car</sprite>
     <sprite>sprites\s_CarAlt</sprite>
     <sprite>sprites\s_Destiny</sprite>
+    <sprite>sprites\s_Building</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -27,6 +28,7 @@
     <script>scripts\f_CheckIfTileIsInPath.gml</script>
     <script>scripts\f_DeletePathUntilTile.gml</script>
     <script>scripts\f_CheckIfPathIsCoherent.gml</script>
+    <script>scripts\f_SetPathTileDirection.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\object0</object>
@@ -34,6 +36,7 @@
     <object>objects\o_Car</object>
     <object>objects\o_RoadTile</object>
     <object>objects\o_TrafficJam</object>
+    <object>objects\o_Building</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_Test</room>

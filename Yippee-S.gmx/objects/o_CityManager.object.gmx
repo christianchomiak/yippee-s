@@ -36,12 +36,19 @@ UsingGPSView = true;
 
 IsSelectionPhase = true;
 
+/*Globar variables*/
+StreetDepth = 0;
+TrafficDepth = -1;
+BuildingDepth = -2;
+GPSCarDepth = -5;
+
+
 /*City Configuration*/
 
-NumberOfRows = 6;    //4
-NumberOfColumns = 8; //6
+NumberOfRows = 4;    //4
+NumberOfColumns = 6; //6
 
-NumberOfTrafficJams = irandom_range(0, max(0, NumberOfRows * NumberOfColumns - 2) * 0.5);
+NumberOfTrafficJams = 0;// irandom_range(0, max(0, NumberOfRows * NumberOfColumns - 2) * 0.5);
 
 CityWidth = room_width * 0.75;
 CityHeight = room_height * 0.75;
@@ -80,6 +87,10 @@ DestinationPositionY = f_PositionInWorld(StartingY, DestinationRow, CellSize, tr
 var AvailableTrafficJamSpots = ds_list_create();
 
 
+car = instance_create(CarPositionX, CarPositionY, o_Car);    
+car.Velocity = CellSize;
+
+
 /*City creation*/
 for (var r = 0; r &lt; NumberOfRows; r++)
 {
@@ -92,6 +103,8 @@ for (var r = 0; r &lt; NumberOfRows; r++)
         CityGrid[c, r].image_yscale = CityGrid[c, r].image_xscale; 
         CityGrid[c, r].row = r;
         CityGrid[c, r].column = c;
+        
+        CityGrid[c, r].IsSelected = false;
         
         CityGrid[c, r].image_speed = 0;
         var IsOnTopBottomBorder = r == 0 or r == NumberOfRows - 1;
@@ -257,6 +270,17 @@ AccumulatedTime = 0;
 
 SelectedPath = ds_list_create();
 f_AddTileToPath(CityGrid[CarStartingColumn,CarStartingRow]);
+
+
+for (var r = 1; r &lt; NumberOfRows; r++)
+{
+    for (var c = 1; c &lt; NumberOfColumns; c++)
+    {
+        var BuildingX = f_PositionInWorld(StartingX, c, CellSize, false);
+        var BuildingY = f_PositionInWorld(StartingY, r + 0.25, CellSize, false);
+        var NewBuilding = instance_create(BuildingX, BuildingY, o_Building);
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -326,9 +350,7 @@ else if keyboard_check_pressed(ord('R'))
 if global.CityManager.IsSelectionPhase &amp;&amp; f_CheckIfTileIsInPath(global.CityManager.CityGrid[DestinationColumn, DestinationRow])
 {
     global.CityManager.IsSelectionPhase = false;
-    car = instance_create(CarPositionX, CarPositionY, o_Car);
-    
-    car.Velocity = CellSize;
+    global.CityManager.UsingGPSView = false;
 }
 </string>
           </argument>
@@ -372,7 +394,7 @@ ds_list_destroy(ListOfTrafficJams);
         <exetype>2</exetype>
         <functionname></functionname>
         <codestring></codestring>
-        <whoName>self</whoName>
+        <whoName>other</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
@@ -385,16 +407,37 @@ if global.CityManager.UsingGPSView
 //f_DrawGrid(StartingX, StartingY, room_width - SideBorderSize, room_height - TopBorderSize, CellSize, 0, 0, c_black, 1);
 //f_DrawGrid(0, 0, room_width, room_height, 64, 0, 0, c_red, 1);
 
-if IsSelectionPhase
+/*if IsSelectionPhase
     draw_sprite(s_Car, 0, CarPositionX, CarPositionY);
 else
-    draw_text(car.x, car.y + 16, string(car.CurrentPathIndex));
+    draw_text(car.x, car.y + 16, string(car.CurrentPathIndex));*/
     
 draw_sprite(s_Destiny, 0, DestinationPositionX, DestinationPositionY);
 
 draw_text(room_width / 2, room_height * 0.025, "Distance: " + string(ds_list_size(global.CityManager.SelectedPath) - 1));
 draw_text(room_width / 2, room_height * 0.045, "Time: " + string(global.CityManager.AccumulatedTime));
 draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.CityManager.CellSize));
+
+
+
+//depth = 0;         
+/*if !IsSelectionPhase
+{
+    for (var r = 1; r &lt; NumberOfRows; r++)
+    {
+        for (var c = 1; c &lt; NumberOfColumns; c++)
+        {
+            var yyy = f_PositionInWorld(StartingX, c, CellSize, false);
+            if yyy &gt; car.y
+                depth = global.CityManager.GPSCarDepth - 1;
+            else
+                depth = global.CityManager.GPSCarDepth + 1; //global.CityManager.BuildingDepth - (y / room_height);
+            draw_sprite_ext(s_Building, (r * NumberOfColumns) + c, yyy, f_PositionInWorld(StartingY, r, CellSize, false), 0.75, 0.75, 0, c_white, 1);
+        }
+    }
+}*/
+
+//
 </string>
           </argument>
         </arguments>

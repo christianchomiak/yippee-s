@@ -27,6 +27,10 @@
             <kind>1</kind>
             <string>///Creation
 
+depth = global.CityManager.StreetDepth;
+//IsSelected = false;
+
+currentHighlightDirection = 5;
 </string>
           </argument>
         </arguments>
@@ -116,6 +120,98 @@ else
         f_AddTileToPath(self.id);
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>500</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring>draw_self();</codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if IsSelected
+{
+    var highlightIndex = 0;
+    var highlightAngle = 0;
+    switch currentHighlightDirection
+    {
+        case 258:
+            highlightIndex = 5;
+            highlightAngle = 0;
+            break;
+        case 456: 
+            highlightIndex = 3;
+            highlightAngle = 0;
+            break;
+        case 256:
+            highlightIndex = 2;
+            highlightAngle = 0;
+            break;
+        case 245:
+            highlightIndex = 2;
+            highlightAngle = 270;
+            break;
+        case 568:
+            highlightIndex = 2;
+            highlightAngle = 90;
+            break;
+        case 458:
+            highlightIndex = 2;
+            highlightAngle = 180;
+            break;
+        case 25:        
+            highlightIndex = 1;
+            highlightAngle = 270;
+            break;
+        case 45:
+            highlightIndex = 1;
+            highlightAngle = 180;
+            break;
+        case 56:
+            highlightIndex = 1;
+            highlightAngle = 0;
+            break;
+        case 58:
+            highlightIndex = 1;
+            highlightAngle = 90;
+            break;
+        default:
+            highlightIndex = 0;
+            highlightAngle = 0;
+            break;    
+    }
+    draw_sprite_ext(s_Traffic, highlightIndex, x, y, image_xscale, image_yscale, highlightAngle, c_blue, 0.25);
+}
+
+draw_text(x, y, string(currentHighlightDirection));
+
 </string>
           </argument>
         </arguments>
