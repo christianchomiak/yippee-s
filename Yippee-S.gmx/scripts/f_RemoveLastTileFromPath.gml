@@ -14,7 +14,7 @@ LastItem.image_alpha = 1;
 //LastItem.image_blend = c_white;
 LastItem.IsSelected = false;
 
-LastItem.currentHighlightDirection = 0;
+LastItem.currentHighlightDirection = 5;
 
 ds_list_delete(global.CityManager.SelectedPath, LastIndex);
 

@@ -20,25 +20,25 @@ if f_CheckIfPathIsCoherent(_tile.id)
     
         if dirX > 0
         {
-            _tile.currentHighlightDirection = 45
+            _tile.currentHighlightDirection = 4
             
             f_SetPathTileDirection(LastItem, 6);
         }
         else if dirX < 0
         {
-            _tile.currentHighlightDirection = 56           
+            _tile.currentHighlightDirection = 6           
             
             f_SetPathTileDirection(LastItem, 4);
         }
         else if dirY > 0
         {
-            _tile.currentHighlightDirection = 58
+            _tile.currentHighlightDirection = 8
             
             f_SetPathTileDirection(LastItem, 2);
         }
         else if dirY < 0
         {            
-            _tile.currentHighlightDirection = 25
+            _tile.currentHighlightDirection = 2
             
             f_SetPathTileDirection(LastItem, 8);
         }
