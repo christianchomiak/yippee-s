@@ -122,7 +122,7 @@ if !HasArrived
             trafficMod = 0.25;
             break;
         case 2:
-            trafficMod = 0.1;
+            trafficMod = 0.125;
             break;
         default:
             trafficMod = 0.5;

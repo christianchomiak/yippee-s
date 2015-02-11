@@ -4,7 +4,9 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\a_BGM</sound>
+  </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_Road</sprite>
     <sprite>sprites\s_RoadDummy</sprite>
@@ -13,6 +15,7 @@
     <sprite>sprites\s_CarAlt</sprite>
     <sprite>sprites\s_Destiny</sprite>
     <sprite>sprites\s_Building</sprite>
+    <sprite>sprites\s_Tree</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

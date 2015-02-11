@@ -30,6 +30,9 @@ global.CityManager = self.id;
 
 randomize();
 
+if !audio_is_playing(a_BGM)
+    audio_play_sound(a_BGM, 1, true);
+
 UsingGPSView = true;
 
 /*Game status*/
@@ -45,10 +48,13 @@ GPSCarDepth = -5;
 
 /*City Configuration*/
 
-NumberOfRows = 4;    //4
-NumberOfColumns = 6; //6
+NumberOfRows = 6;    //4
+NumberOfColumns = 8; //6
 
-NumberOfTrafficJams = 0;// irandom_range(0, max(0, NumberOfRows * NumberOfColumns - 2) * 0.5);
+var minNumberOfTrafficJams = (NumberOfRows * NumberOfColumns - 2) * 0.25;
+var maxNumberOfTrafficJams = (NumberOfRows * NumberOfColumns - 2) * 0.75;
+
+NumberOfTrafficJams = irandom_range(minNumberOfTrafficJams, maxNumberOfTrafficJams);
 
 CityWidth = room_width * 0.75;
 CityHeight = room_height * 0.75;
@@ -402,7 +408,35 @@ ds_list_destroy(ListOfTrafficJams);
             <kind>1</kind>
             <string>
 if global.CityManager.UsingGPSView
+{
     f_DrawGrid(StartingX, StartingY, StartingX + NumberOfColumns * CellSize, StartingY + NumberOfRows * CellSize, CellSize, 0, 0, c_black, 1);
+}
+else
+{
+    for (var r = 0; r &lt; NumberOfRows; r++)
+    {
+        for (var c = 0; c &lt; NumberOfColumns; c++)
+        {
+            if (r != 0 and r != NumberOfRows - 1) and (c != 0 and c != NumberOfColumns - 1)
+                continue;
+        
+            var offsetX = 0, offsetY = 0;
+            
+            if r == 0
+                offsetY = -0.25;
+            else if r == NumberOfRows - 1            
+                offsetY = 0.5;
+            else if c == 0
+                offsetX = -0.3625;
+            else if c == NumberOfColumns - 1            
+                offsetX = 0.3625;
+            
+            var scale = (CellSize / sprite_get_width(s_Tree)) * 0.85;
+            var typeOfTree = (r * NumberOfColumns) + c;
+            draw_sprite_ext(s_Tree, typeOfTree, f_PositionInWorld(StartingX, c + offsetX, CellSize, true), f_PositionInWorld(StartingY, r + offsetY, CellSize, true), scale, scale, 0, c_white, 1);
+        }
+    }
+}
 
 //f_DrawGrid(StartingX, StartingY, room_width - SideBorderSize, room_height - TopBorderSize, CellSize, 0, 0, c_black, 1);
 //f_DrawGrid(0, 0, room_width, room_height, 64, 0, 0, c_red, 1);
@@ -437,7 +471,8 @@ draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.Cit
     }
 }*/
 
-//
+
+depth = -10;
 </string>
           </argument>
         </arguments>
