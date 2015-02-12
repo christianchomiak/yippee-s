@@ -14,6 +14,7 @@
     <sprite>sprites\s_Car</sprite>
     <sprite>sprites\s_CarAlt</sprite>
     <sprite>sprites\s_Destiny</sprite>
+    <sprite>sprites\s_Marker</sprite>
     <sprite>sprites\s_Building</sprite>
     <sprite>sprites\s_Tree</sprite>
   </sprites>
@@ -43,6 +44,7 @@
     <object>objects\o_RoadTile</object>
     <object>objects\o_TrafficJam</object>
     <object>objects\o_Building</object>
+    <object>objects\o_Marker</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_Test</room>

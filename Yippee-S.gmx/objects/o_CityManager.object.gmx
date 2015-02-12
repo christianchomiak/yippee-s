@@ -38,6 +38,7 @@ StreetDepth = 0;
 TrafficDepth = -1;
 BuildingDepth = -2;
 GPSCarDepth = -5;
+MarkerDepth = -100;
 CityGrid = 0;
 //CityGrid = ds_grid_create(1, 1);
 SelectedPath = ds_list_create();
@@ -45,8 +46,9 @@ ListOfTrafficJams = ds_list_create();
 ListOfBuildings = ds_list_create();
 
 car = instance_create(0, 0, o_Car);
+marker = instance_create(0, 0, o_Marker);
 
-f_InitializeLevel(0.75, 0.75, 6, 8, 0, 0);// 0.25, 0.75);
+f_InitializeLevel(0.75, 0.75, 6, 8, 0.25, 0.75);
 </string>
           </argument>
         </arguments>
@@ -165,7 +167,7 @@ ds_list_destroy(ListOfBuildings);
         <exetype>2</exetype>
         <functionname></functionname>
         <codestring></codestring>
-        <whoName>other</whoName>
+        <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
@@ -175,6 +177,7 @@ ds_list_destroy(ListOfBuildings);
 if global.CityManager.UsingGPSView
 {
     f_DrawGrid(StartingX, StartingY, StartingX + NumberOfColumns * CellSize, StartingY + NumberOfRows * CellSize, CellSize, 0, 0, c_black, 1);
+    //(s_Destiny, 0, DestinationPositionX, DestinationPositionY);
 }
 else
 {
@@ -201,14 +204,17 @@ else
             draw_sprite_ext(s_Tree, typeOfTree, f_PositionInWorld(StartingX, c + offsetX, CellSize, true), f_PositionInWorld(StartingY, r + offsetY, CellSize, true), scale, scale, 0, c_white, 1);
         }
     }
+    //draw_sprite_ext(s_Marker, 0, DestinationPositionX, DestinationPositionY, 1, 1, 0, c_red, 0.5);
 }
 
     
-draw_sprite(s_Destiny, 0, DestinationPositionX, DestinationPositionY);
 
 draw_text(room_width / 2, room_height * 0.025, "Distance: " + string(ds_list_size(global.CityManager.SelectedPath) - 1));
 draw_text(room_width / 2, room_height * 0.045, "Time: " + string(global.CityManager.AccumulatedTime));
 draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.CityManager.CellSize));
+
+if car.HasArrived
+    draw_text(room_width / 2, room_height * 0.95, "ARRIVED!");
 
 
 depth = -10;

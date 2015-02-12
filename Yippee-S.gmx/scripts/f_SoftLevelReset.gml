@@ -36,7 +36,13 @@ while !doneWithDestination
 }
 DestinationPositionX = f_PositionInWorld(StartingX, DestinationColumn, CellSize, true);
 DestinationPositionY = f_PositionInWorld(StartingY, DestinationRow, CellSize, true);
-
+marker.x = DestinationPositionX;
+marker.y = DestinationPositionY;
+marker.image_xscale = 2 * (sprite_get_width(marker.sprite_index) / CellSize); 
+marker.image_yscale = marker.image_xscale;       
+marker.Velocity = -CellSize * 0.125;
+marker.MaxJumpDistance = marker.y - (CellSize * 0.125);
+marker.BaseJumpDistance = marker.y;
 
 /*Traffic Jams*/
 NumberOfTrafficJams = irandom_range(minJams, maxJams);

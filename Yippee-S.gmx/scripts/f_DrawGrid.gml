@@ -32,15 +32,15 @@ x1 += size/2 * 0.99;
 x2 -= size/2 * 0.99;
 y1 += size/2 * 0.99;
 y2 -= size/2 * 0.99;
-var routeAlpha = 0.5;
+var routeAlpha = 0.75;
 for(ix=x1; ix<x2; ix+=size) //draws vertical lines
 {
-draw_vertex_color(ix,y1,c_red,routeAlpha);
-draw_vertex_color(ix,y2,c_red,routeAlpha);
+    draw_vertex_color(ix,y1,c_red,routeAlpha);
+    draw_vertex_color(ix,y2,c_red,routeAlpha);
 }
 for(iy=y1; iy<y2; iy+=size) //draws horizontal lines
 {
-draw_vertex_color(x1,iy,c_red,routeAlpha);
-draw_vertex_color(x2,iy,c_red,routeAlpha);
+    draw_vertex_color(x1,iy,c_red,routeAlpha);
+    draw_vertex_color(x2,iy,c_red,routeAlpha);
 }
 draw_primitive_end();
