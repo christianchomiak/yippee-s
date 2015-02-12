@@ -27,13 +27,11 @@
             <kind>1</kind>
             <string>///Creation
 
-CurrentPathIndex = 1;
-HasArrived = false;
-Velocity = 0;
-
-depth = -5;
-
+//depth = -5;
+depth = global.CityManager.GPSCarDepth;
 image_speed = 0;
+
+f_ResetCar(self.id, 0, 0, 0);
 </string>
           </argument>
         </arguments>
@@ -59,7 +57,7 @@ image_speed = 0;
             <string>if global.CityManager.UsingGPSView
 {
     sprite_index = s_Car;
-    depth = global.CityManager.GPSCarDepth;
+    //depth = global.CityManager.GPSCarDepth;
 }
 else
 {
@@ -67,7 +65,7 @@ else
     image_xscale = (global.CityManager.CellSize / sprite_get_width(sprite_index)) * 0.5; ;//  
     image_yscale = image_xscale;
     
-    depth = global.CityManager.GPSCarDepth - (y / room_height);
+    //depth = global.CityManager.GPSCarDepth - (y / room_height);
 }
 
 </string>

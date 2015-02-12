@@ -33,260 +33,20 @@ randomize();
 if !audio_is_playing(a_BGM)
     audio_play_sound(a_BGM, 1, true);
 
-UsingGPSView = true;
-
-/*Game status*/
-
-IsSelectionPhase = true;
-
 /*Globar variables*/
 StreetDepth = 0;
 TrafficDepth = -1;
 BuildingDepth = -2;
 GPSCarDepth = -5;
-
-
-/*City Configuration*/
-
-NumberOfRows = 6;    //4
-NumberOfColumns = 8; //6
-
-var minNumberOfTrafficJams = (NumberOfRows * NumberOfColumns - 2) * 0.25;
-var maxNumberOfTrafficJams = (NumberOfRows * NumberOfColumns - 2) * 0.75;
-
-NumberOfTrafficJams = irandom_range(minNumberOfTrafficJams, maxNumberOfTrafficJams);
-
-CityWidth = room_width * 0.75;
-CityHeight = room_height * 0.75;
-
-CellSize = min(CityWidth / NumberOfColumns, CityHeight / NumberOfRows);//96;
-
-SideBorderSize = (room_width - NumberOfColumns * CellSize) / 2;//CellSize / 2;
-TopBorderSize = (room_height - NumberOfRows * CellSize) / 2;//CellSize / 2;
-
-StartingX = SideBorderSize;
-StartingY = TopBorderSize;
-
-CityGrid = ds_grid_create(NumberOfColumns, NumberOfRows);
-
-
-/*Car position*/
-CarStartingRow = irandom_range(0, NumberOfRows - 1);
-CarStartingColumn = irandom_range(0, NumberOfColumns - 1);
-CarPositionX = f_PositionInWorld(StartingX, CarStartingColumn, CellSize, true);
-CarPositionY = f_PositionInWorld(StartingY, CarStartingRow, CellSize, true);
-
-var doneWithDestination = false;
-while !doneWithDestination
-{
-    DestinationRow = irandom_range(0, NumberOfRows - 1);
-    DestinationColumn = irandom_range(0, NumberOfColumns - 1);
-    
-    if DestinationRow != CarStartingRow or DestinationColumn != CarStartingColumn
-        doneWithDestination = true;
-}
-
-DestinationPositionX = f_PositionInWorld(StartingX, DestinationColumn, CellSize, true);
-DestinationPositionY = f_PositionInWorld(StartingY, DestinationRow, CellSize, true);
-
-
-var AvailableTrafficJamSpots = ds_list_create();
-
-
-car = instance_create(CarPositionX, CarPositionY, o_Car);    
-car.Velocity = CellSize;
-
-
-/*City creation*/
-for (var r = 0; r &lt; NumberOfRows; r++)
-{
-    for (var c = 0; c &lt; NumberOfColumns; c++)
-    {
-        var xx = f_PositionInWorld(StartingX, c, CellSize, true);
-        var yy = f_PositionInWorld(StartingY, r, CellSize, true);
-        CityGrid[c, r] = instance_create(xx, yy, o_RoadTile);
-        CityGrid[c, r].image_xscale = CellSize / sprite_get_width(CityGrid[c, r].sprite_index); 
-        CityGrid[c, r].image_yscale = CityGrid[c, r].image_xscale; 
-        CityGrid[c, r].row = r;
-        CityGrid[c, r].column = c;
-        
-        CityGrid[c, r].IsSelected = false;
-        
-        CityGrid[c, r].image_speed = 0;
-        var IsOnTopBottomBorder = r == 0 or r == NumberOfRows - 1;
-        var IsOnLeftRightBorder = c == 0 or c == NumberOfColumns - 1
-        var IsOnCorner = IsOnTopBottomBorder and IsOnLeftRightBorder;
-        var IsOnBorder = IsOnTopBottomBorder or IsOnLeftRightBorder;
-        
-        if IsOnBorder
-        {   
-            if IsOnCorner 
-            {            
-                CityGrid[c, r].image_index = 2;
-                
-                if r == 0 and c == 0
-                {
-                    CityGrid[c, r].image_angle = 0;
-                }
-                else if r == NumberOfRows - 1 and c == 0
-                {
-                    CityGrid[c, r].image_angle = 90;
-                }
-                else if r == 0 and c - 1
-                {
-                    CityGrid[c, r].image_angle = 270;
-                }
-                else
-                {
-                    CityGrid[c, r].image_angle = 180;            
-                }
-            }
-            else if r == 0
-            {                
-                CityGrid[c, r].image_index = 4;
-                CityGrid[c, r].image_angle = 270;
-            }
-            else if r == NumberOfRows - 1
-            {                
-                CityGrid[c, r].image_index = 4;
-                CityGrid[c, r].image_angle = 90;
-            }
-            else if c == 0
-            {                
-                CityGrid[c, r].image_index = 4;
-                CityGrid[c, r].image_angle = 0;
-            }
-            else if c == NumberOfColumns - 1
-            {                
-                CityGrid[c, r].image_index = 4;
-                CityGrid[c, r].image_angle = 180;
-            }
-        }
-        else
-        {            
-            CityGrid[c, r].image_index = 0;
-        }
-        //CityGrid[c, r].image_index = 3;
-        
-        /*if (c != CarStartingColumn || r != CarStartingRow) &amp;&amp; 
-           (c != DestinationColumn || r != DestinationRow) &amp;&amp;
-           r &lt; NumberOfRows - 1 &amp;&amp; c &lt; NumberOfColumns - 1*/
-        if (c != CarStartingColumn || r != CarStartingRow) &amp;&amp; 
-           (c != DestinationColumn || r != DestinationRow)
-           //&amp;&amp; r &lt; NumberOfRows - 1 &amp;&amp; c &lt; NumberOfColumns - 1
-        {
-            ds_list_add(AvailableTrafficJamSpots, CityGrid[c, r]);
-        }
-    }
-}
-
-ds_list_shuffle(AvailableTrafficJamSpots);
-ListOfTrafficJams = ds_list_create();
-
-for (var j = 0; j &lt; NumberOfTrafficJams; j++)
-{
-    var CurrentJamSite = ds_list_find_value(AvailableTrafficJamSpots, j);
-    var NewJam;
-    
-    var IsOnTopBottomBorder = CurrentJamSite.row == 0 or CurrentJamSite.row == NumberOfRows - 1;
-    var IsOnLeftRightBorder = CurrentJamSite.column == 0 or CurrentJamSite.column == NumberOfColumns - 1
-    var IsOnCorner = IsOnTopBottomBorder and IsOnLeftRightBorder;
-    var IsOnBorder = IsOnTopBottomBorder or IsOnLeftRightBorder;
-    
-    NewJam = instance_create(CurrentJamSite.x, CurrentJamSite.y, o_TrafficJam);            
-    
-    if IsOnBorder
-    {   
-        if IsOnCorner 
-        {                        
-            NewJam.image_index = choose(1, 2);
-                
-            if CurrentJamSite.row == 0 and CurrentJamSite.column == 0
-            {
-                NewJam.image_angle = 0;
-            }
-            else if CurrentJamSite.row == NumberOfRows - 1 and CurrentJamSite.column == 0
-            {
-                NewJam.image_angle = 90;
-            }
-            else if CurrentJamSite.row == 0 and NumberOfColumns - 1
-            {
-                NewJam.image_angle = 270;
-            }
-            else
-            {
-                NewJam.image_angle = 180;    
-            }        
-        }
-        else
-        {        
-            NewJam.image_index = choose(1, 2, 4, 5);
-            if CurrentJamSite.row == 0
-            {            
-                NewJam.image_angle = 270;
-                if NewJam.image_index == 1
-                {                
-                    NewJam.image_angle = choose(0, 270, 180);
-                }
-            }
-            else if CurrentJamSite.row == NumberOfRows - 1
-            {                
-                NewJam.image_angle = 90;
-                if NewJam.image_index == 1
-                {                
-                    NewJam.image_angle = choose(0, 90, 180);
-                }
-            }
-            else if CurrentJamSite.column == 0
-            {
-                NewJam.image_angle = 0;
-                if NewJam.image_index == 1
-                {                
-                    NewJam.image_angle = choose(0, 90, 270);
-                }
-            }
-            else if CurrentJamSite.column == NumberOfColumns - 1
-            {
-                NewJam.image_angle = 180;
-                if NewJam.image_index == 1
-                {                
-                    NewJam.image_angle = choose(180, 90, 270);
-                }
-            }
-        }
-    }
-    else
-    {       
-        NewJam.image_index = choose(0, 1, 2, 3, 4, 5);
-        NewJam.image_angle = choose(0, 90, 180, 270);
-    }
-
-    //NewJam.image_index = CurrentJamSite.image_index;
-    //NewJam.image_angle = CurrentJamSite.image_angle;
-    
-    NewJam.image_speed = 0;
-    
-    NewJam.image_xscale = CellSize / sprite_get_width(CurrentJamSite.sprite_index); 
-    NewJam.image_yscale = NewJam.image_xscale;            
-}
-
-ds_list_destroy(AvailableTrafficJamSpots);
-
-AccumulatedTime = 0;
-
+CityGrid = 0;
+//CityGrid = ds_grid_create(1, 1);
 SelectedPath = ds_list_create();
-f_AddTileToPath(CityGrid[CarStartingColumn,CarStartingRow]);
+ListOfTrafficJams = ds_list_create();
+ListOfBuildings = ds_list_create();
 
+car = instance_create(0, 0, o_Car);
 
-for (var r = 1; r &lt; NumberOfRows; r++)
-{
-    for (var c = 1; c &lt; NumberOfColumns; c++)
-    {
-        var BuildingX = f_PositionInWorld(StartingX, c, CellSize, false);
-        var BuildingY = f_PositionInWorld(StartingY, r + 0.25, CellSize, false);
-        var NewBuilding = instance_create(BuildingX, BuildingY, o_Building);
-    }
-}
+f_InitializeLevel(0.75, 0.75, 6, 8, 0, 0);// 0.25, 0.75);
 </string>
           </argument>
         </arguments>
@@ -314,7 +74,7 @@ if keyboard_check_pressed(vk_escape)
 {
     game_end();
 }
-else if keyboard_check_pressed(vk_space)
+else if keyboard_check_pressed(ord('G'))
 {
     global.CityManager.UsingGPSView = !global.CityManager.UsingGPSView;
 }
@@ -322,6 +82,10 @@ else if keyboard_check_pressed(ord('R'))
 {
     game_restart();
 }
+else if keyboard_check_pressed(vk_space) //if car.HasArrived and 
+    f_SoftLevelReset(MinNumberOfTrafficJams, MaxNumberOfTrafficJams);
+else if keyboard_check_pressed(vk_enter)
+    f_InitializeLevel(0.75, 0.75, irandom_range(4, 6), irandom_range(6, 8), 0.25, 0.75);
 
 /*for (var r = 0; r &lt; 5; r++)
 {
@@ -384,6 +148,7 @@ if global.CityManager.IsSelectionPhase &amp;&amp; f_CheckIfTileIsInPath(global.C
 ds_grid_destroy(CityGrid);
 ds_list_destroy(SelectedPath);
 ds_list_destroy(ListOfTrafficJams);
+ds_list_destroy(ListOfBuildings);
 </string>
           </argument>
         </arguments>
@@ -438,38 +203,12 @@ else
     }
 }
 
-//f_DrawGrid(StartingX, StartingY, room_width - SideBorderSize, room_height - TopBorderSize, CellSize, 0, 0, c_black, 1);
-//f_DrawGrid(0, 0, room_width, room_height, 64, 0, 0, c_red, 1);
-
-/*if IsSelectionPhase
-    draw_sprite(s_Car, 0, CarPositionX, CarPositionY);
-else
-    draw_text(car.x, car.y + 16, string(car.CurrentPathIndex));*/
     
 draw_sprite(s_Destiny, 0, DestinationPositionX, DestinationPositionY);
 
 draw_text(room_width / 2, room_height * 0.025, "Distance: " + string(ds_list_size(global.CityManager.SelectedPath) - 1));
 draw_text(room_width / 2, room_height * 0.045, "Time: " + string(global.CityManager.AccumulatedTime));
 draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.CityManager.CellSize));
-
-
-
-//depth = 0;         
-/*if !IsSelectionPhase
-{
-    for (var r = 1; r &lt; NumberOfRows; r++)
-    {
-        for (var c = 1; c &lt; NumberOfColumns; c++)
-        {
-            var yyy = f_PositionInWorld(StartingX, c, CellSize, false);
-            if yyy &gt; car.y
-                depth = global.CityManager.GPSCarDepth - 1;
-            else
-                depth = global.CityManager.GPSCarDepth + 1; //global.CityManager.BuildingDepth - (y / room_height);
-            draw_sprite_ext(s_Building, (r * NumberOfColumns) + c, yyy, f_PositionInWorld(StartingY, r, CellSize, false), 0.75, 0.75, 0, c_white, 1);
-        }
-    }
-}*/
 
 
 depth = -10;

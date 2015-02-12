@@ -32,6 +32,9 @@
     <script>scripts\f_DeletePathUntilTile.gml</script>
     <script>scripts\f_CheckIfPathIsCoherent.gml</script>
     <script>scripts\f_SetPathTileDirection.gml</script>
+    <script>scripts\f_InitializeLevel.gml</script>
+    <script>scripts\f_SoftLevelReset.gml</script>
+    <script>scripts\f_ResetCar.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\object0</object>
