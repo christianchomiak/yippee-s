@@ -11,6 +11,7 @@
     <sprite>sprites\s_Road</sprite>
     <sprite>sprites\s_RoadDummy</sprite>
     <sprite>sprites\s_Traffic</sprite>
+    <sprite>sprites\s_TrafficAlt</sprite>
     <sprite>sprites\s_Car</sprite>
     <sprite>sprites\s_CarAlt</sprite>
     <sprite>sprites\s_Destiny</sprite>
@@ -42,6 +43,8 @@
     <script>scripts\f_GetTileCost.gml</script>
     <script>scripts\f_SetTrafficCost.gml</script>
     <script>scripts\f_GetTileNeighbor.gml</script>
+    <script>scripts\f_TryPermutation.gml</script>
+    <script>scripts\f_ReconstructPath.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\object0</object>

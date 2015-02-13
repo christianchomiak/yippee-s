@@ -52,15 +52,22 @@ car = instance_create(0, 0, o_Car);
 BestTime = 0;
 
 minNumCol = 3;
-maxNumCol = 3;
+maxNumCol = 4;
 
 minNumRow = 3;
-maxNumRow = 3;
+maxNumRow = 4;
 
-MinTraf = 1;//0.5;
-MaxTraf = 1;//0.5;
+MinTraf = 0.75;//0.5;
+MaxTraf = 0.75;//0.5;
 
-f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), irandom_range(minNumCol, maxNumCol), MinTraf, MaxTraf); //0.25, 0.75);
+minNumGoals = 1;
+maxNumGoals = 4;
+
+f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
+                             irandom_range(minNumCol, maxNumCol), 
+                             random_range(MinTraf, MaxTraf), 
+                             irandom_range(minNumGoals, maxNumGoals)
+                 );
 </string>
           </argument>
         </arguments>
@@ -97,9 +104,14 @@ else if keyboard_check_pressed(ord('R'))
     game_restart();
 }
 else if keyboard_check_pressed(vk_space) //if car.HasArrived and 
-    f_SoftLevelReset(MinNumberOfTrafficJams, MaxNumberOfTrafficJams);
+    f_SoftLevelReset(random_range(MinTraf, MaxTraf), 
+                     irandom_range(minNumGoals, maxNumGoals));
 else if keyboard_check_pressed(vk_enter)
-    f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), irandom_range(minNumCol, maxNumCol), MinTraf, MaxTraf);
+    f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
+                                 irandom_range(minNumCol, maxNumCol),                                  
+                                 random_range(MinTraf, MaxTraf),  
+                                 irandom_range(minNumGoals, maxNumGoals)
+                     );
 
 /*for (var r = 0; r &lt; 5; r++)
 {
@@ -234,7 +246,7 @@ if car.HasArrived
     draw_text(room_width / 2, room_height * 0.95, "ARRIVED!");
 }
 
-draw_text(room_width * 0.25, room_height * 0.95, "Best: " + string(BestTime));// / 2));
+draw_text(room_width * 0.25, room_height * 0.95, "Best: " + string(BestTime));
 
 depth = -10;
 </string>

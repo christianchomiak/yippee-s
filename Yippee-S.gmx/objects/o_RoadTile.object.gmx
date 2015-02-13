@@ -219,7 +219,8 @@ else
     draw_sprite_ext(s_Traffic, highlightIndex, x, y, image_xscale, image_yscale, highlightAngle, c_blue, 0.25);
 }
 
-draw_text(x, y, "(" + string(column) + ", " + string(row) + ")");
+//draw_text(x, y, "(" + string(column) + ", " + string(row) + ")");
+draw_text(x, y, string(column + (row * global.CityManager.NumberOfColumns)));
 
 draw_text(x, y - (global.CityManager.CellSize / 2), string(CostToNorth));
 draw_text(x, y + (global.CityManager.CellSize / 2) * 0.7, string(CostToSouth));

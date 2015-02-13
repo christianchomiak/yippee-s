@@ -70,4 +70,3 @@ else if index == 5
     if angle == 0 or angle == 180 { tile.CostToNorth = cost; tile.CostToSouth = cost; } else 
     if angle == 90 or angle == 270 { tile.CostToEast = cost; tile.CostToWest = cost; }
 } 
-

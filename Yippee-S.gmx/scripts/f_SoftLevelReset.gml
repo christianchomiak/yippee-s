@@ -1,12 +1,15 @@
-///f_SoftLevelReset(MinNumberOfTrafficJams, MaxNumberOfTrafficJams)
+///f_SoftLevelReset(PercentageOfTrafficJams, NumberOfGoals)
 
-var minJamsPercentage = argument0;
-var maxJamsPercentage = argument1;
+PercentageOfTrafficJams = argument0;
+NumberOfGoals = argument1;
+
+NumberOfGoals = min(NumberOfGoals, 8); //min(ds_list_size(FreeSpots) * 0.1));
 
 /*Game status*/
 IsSelectionPhase = true;
 UsingGPSView = true;
 AccumulatedTime = 0;
+
 
 /*Car*/
 CarStartingRow = irandom_range(0, NumberOfRows - 1);
@@ -27,8 +30,11 @@ for (var iii = 0; iii < ds_list_size(ListOfGoals); iii++)
 }
 ds_list_clear(ListOfGoals);
 
+
+
 //List of places where goals and traffic jams could be
 var FreeSpots = ds_list_create();
+
 
 //Find all available spots to put a goal
 for (var r = 0; r < NumberOfRows; r++)
@@ -48,8 +54,7 @@ for (var r = 0; r < NumberOfRows; r++)
 }
 ds_list_shuffle(FreeSpots);
 
-NumberOfGoals = irandom_range(1, 1); //min(ds_list_size(FreeSpots) * 0.1));
-
+//Create goals
 var TotalGoalsCreated = 0;
 while TotalGoalsCreated < NumberOfGoals
 {
@@ -59,7 +64,7 @@ while TotalGoalsCreated < NumberOfGoals
     var DestinationPositionY = f_PositionInWorld(StartingY, CurrentGoalPosition.row, CellSize, true);
     
     var marker = instance_create(DestinationPositionX, DestinationPositionY, o_Marker);
-    marker.image_xscale = 2 * (sprite_get_width(marker.sprite_index) / CellSize); 
+    marker.image_xscale = 0.125 * (CellSize / sprite_get_width(marker.sprite_index)); 
     marker.image_yscale = marker.image_xscale;       
     marker.Velocity = -CellSize * 0.125;
     marker.MaxJumpDistance = marker.y - (CellSize * 0.125);
@@ -71,13 +76,10 @@ while TotalGoalsCreated < NumberOfGoals
     ds_list_delete(FreeSpots, 0);
     TotalGoalsCreated++;
 }
-
+ds_list_shuffle(FreeSpots); //AvailableTrafficJamSpots);
 
 
 /*Traffic Jams*/
-var minJams = ds_list_size(FreeSpots) * minJamsPercentage;
-var maxJams = ds_list_size(FreeSpots) * maxJamsPercentage;
-NumberOfTrafficJams = irandom_range(minJams, maxJams);
 
 //Delete any previous objects
 for (var iii = 0; iii < ds_list_size(ListOfTrafficJams); iii++)
@@ -88,24 +90,13 @@ for (var iii = 0; iii < ds_list_size(ListOfTrafficJams); iii++)
         instance_destroy();
     }
 }
-
-//var AvailableTrafficJamSpots = ds_list_create();
 ds_list_clear(ListOfTrafficJams);
 
-//Find all available spots to put a traffic jam
-/*for (var r = 0; r < NumberOfRows; r++)
-{
-    for (var c = 0; c < NumberOfColumns; c++)
-    {
-        if (c != CarStartingColumn || r != CarStartingRow) && 
-           (c != DestinationColumn || r != DestinationRow)
-        {
-            ds_list_add(AvailableTrafficJamSpots, CityGrid[c, r]);
-        }
-    }
-}*/
+NumberOfTrafficJams = floor(PercentageOfTrafficJams * ds_list_size(FreeSpots)); //irandom_range(minJams, maxJams);
 
-ds_list_shuffle(FreeSpots); //AvailableTrafficJamSpots);
+/*var s = "Free Spots = " + string(ds_list_size(FreeSpots));
+s += " :: Jams = " + string(NumberOfTrafficJams);
+show_message(s);*/
 
 //Create the necessary amount of traffic jams
 for (var j = 0; j < NumberOfTrafficJams; j++)
@@ -210,5 +201,16 @@ while f_RemoveLastTileFromPath() != -1 {}
 ds_list_clear(SelectedPath);
 f_AddTileToPath(CityGrid[CarStartingColumn, CarStartingRow]);
 
+StartingTile = ds_list_find_value(SelectedPath, 0);
+BestTime = f_GetPathCost(); //, ds_list_find_value(ListOfGoals, 0));
 
-BestTime = f_GetPathCost(ds_list_find_value(SelectedPath, 0), ds_list_find_value(ListOfGoals, 0));
+/*var Value;
+var N = 8;
+global.total = 0;
+for (var j = 0; j < N; j++)
+{
+    Value[j] = 0;
+}
+f_TryPermutation(0, N, Value, -1);*/
+
+show_debug_message("Total: " + string(global.total));

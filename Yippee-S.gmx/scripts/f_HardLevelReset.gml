@@ -1,11 +1,11 @@
-///f_HardLevelReset(CityWidth, CityHeight, NumberOfRows, NumberOfColumns, MinNumberOfTrafficJams, MaxNumberOfTrafficJams)
+///f_HardLevelReset(CityWidth, CityHeight, NumberOfRows, NumberOfColumns, PercentageOfTrafficJams, NumberOfGoals)
 
 CityWidth = argument0 * room_width;
 CityHeight = argument1 * room_height;
 NumberOfRows = argument2;
 NumberOfColumns = argument3;
-MinNumberOfTrafficJams = argument4;
-MaxNumberOfTrafficJams = argument5;
+PercentageOfTrafficJams = argument4;
+NumberOfGoals = argument5;
 
 CellSize = min(CityWidth / NumberOfColumns, CityHeight / NumberOfRows);
 
@@ -136,4 +136,4 @@ for (var r = 1; r < NumberOfRows; r++)
 }
 
 //Car, destination and traffic jams
-f_SoftLevelReset(MinNumberOfTrafficJams, MaxNumberOfTrafficJams);
+f_SoftLevelReset(PercentageOfTrafficJams, NumberOfGoals);
