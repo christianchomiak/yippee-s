@@ -93,6 +93,11 @@ else
             <string>if global.CityManager.IsSelectionPhase
     exit;
 
+if keyboard_check(vk_shift)
+    Turbo = 2;
+else
+    Turbo = 1;
+    
 if !HasArrived
 {
     var PathLength = ds_list_size(global.CityManager.SelectedPath);
@@ -107,30 +112,30 @@ if !HasArrived
     
     var currentTarget = ds_list_find_value(global.CityManager.SelectedPath, CurrentPathIndex);
   
-    var vel = Velocity; //128;
+    var vel = Velocity * Turbo; //128;
     var trafficMod = 1;
     var PossibleJam = instance_position(x, y, o_TrafficJam);
     
     switch(PossibleJam.TrafficLevel)
     {
-        case 0:
+        case 2:
             trafficMod = 0.5;
             break;
-        case 1:
+        case 4:
             trafficMod = 0.25;
             break;
-        case 2:
+        case 8:
             trafficMod = 0.125;
             break;
         default:
-            trafficMod = 0.5;
+            trafficMod = 1;
             break;
     }
     
     if PossibleJam != noone
     {
         //vel = Velocity * (1.1 - PossibleJam.image_alpha); //32;
-        vel = Velocity * trafficMod; //32;
+        vel *= trafficMod; //32;
     }    
     
     var dirX = currentTarget.x - x;
@@ -148,7 +153,7 @@ if !HasArrived
     //vspeed = sign(dirY) * vel;
     //hspeed = sign(dirX) * vel;
     
-    global.CityManager.AccumulatedTime += f_GetDeltaTime();
+    global.CityManager.AccumulatedTime += f_GetDeltaTime() * Turbo;
     x += sign(dirX) * vel * f_GetDeltaTime();
     y += sign(dirY) * vel * f_GetDeltaTime();
     

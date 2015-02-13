@@ -28,10 +28,11 @@
             <string>///Creation
 global.CityManager = self.id;
 
-randomize();
+random_set_seed(0);
+//randomize();
 
-if !audio_is_playing(a_BGM)
-    audio_play_sound(a_BGM, 1, true);
+/*if !audio_is_playing(a_BGM)
+    audio_play_sound(a_BGM, 1, true);*/
 
 /*Globar variables*/
 StreetDepth = 0;
@@ -44,11 +45,22 @@ CityGrid = 0;
 SelectedPath = ds_list_create();
 ListOfTrafficJams = ds_list_create();
 ListOfBuildings = ds_list_create();
+ListOfGoals = ds_list_create();
 
 car = instance_create(0, 0, o_Car);
-marker = instance_create(0, 0, o_Marker);
 
-f_InitializeLevel(0.75, 0.75, 6, 8, 0.25, 0.75);
+BestTime = 0;
+
+minNumCol = 3;
+maxNumCol = 3;
+
+minNumRow = 3;
+maxNumRow = 3;
+
+MinTraf = 1;//0.5;
+MaxTraf = 1;//0.5;
+
+f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), irandom_range(minNumCol, maxNumCol), MinTraf, MaxTraf); //0.25, 0.75);
 </string>
           </argument>
         </arguments>
@@ -87,7 +99,7 @@ else if keyboard_check_pressed(ord('R'))
 else if keyboard_check_pressed(vk_space) //if car.HasArrived and 
     f_SoftLevelReset(MinNumberOfTrafficJams, MaxNumberOfTrafficJams);
 else if keyboard_check_pressed(vk_enter)
-    f_InitializeLevel(0.75, 0.75, irandom_range(4, 6), irandom_range(6, 8), 0.25, 0.75);
+    f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), irandom_range(minNumCol, maxNumCol), MinTraf, MaxTraf);
 
 /*for (var r = 0; r &lt; 5; r++)
 {
@@ -119,7 +131,8 @@ else if keyboard_check_pressed(vk_enter)
             <kind>1</kind>
             <string>///PHASES
 
-if global.CityManager.IsSelectionPhase &amp;&amp; f_CheckIfTileIsInPath(global.CityManager.CityGrid[DestinationColumn, DestinationRow])
+if global.CityManager.IsSelectionPhase and 
+   f_CheckIfAllGoalsAreInPath() // f_CheckIfTileIsInPath(global.CityManager.CityGrid[DestinationColumn, DestinationRow])
 {
     global.CityManager.IsSelectionPhase = false;
     global.CityManager.UsingGPSView = false;
@@ -146,11 +159,14 @@ if global.CityManager.IsSelectionPhase &amp;&amp; f_CheckIfTileIsInPath(global.C
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///OnDestroy
-ds_grid_destroy(CityGrid);
+            <string>///Destroy all dynamic structures
+if ds_exists(CityGrid, ds_type_grid)
+    ds_grid_destroy(CityGrid);
+
 ds_list_destroy(SelectedPath);
 ds_list_destroy(ListOfTrafficJams);
 ds_list_destroy(ListOfBuildings);
+ds_list_destroy(ListOfGoals);
 </string>
           </argument>
         </arguments>
@@ -214,8 +230,11 @@ draw_text(room_width / 2, room_height * 0.045, "Time: " + string(global.CityMana
 draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.CityManager.CellSize));
 
 if car.HasArrived
+{
     draw_text(room_width / 2, room_height * 0.95, "ARRIVED!");
+}
 
+draw_text(room_width * 0.25, room_height * 0.95, "Best: " + string(BestTime));// / 2));
 
 depth = -10;
 </string>

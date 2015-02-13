@@ -7,3 +7,4 @@ car.y = argument2;
 car.Velocity = argument3;
 car.CurrentPathIndex = 1;
 car.HasArrived = false;
+car.Turbo = 1;

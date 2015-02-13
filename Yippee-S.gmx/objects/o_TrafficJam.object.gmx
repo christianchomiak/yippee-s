@@ -28,17 +28,17 @@
             <string>depth = global.CityManager.TrafficDepth;
 image_alpha = 0.75;
 
-TrafficLevel = choose(0, 0, 0, 0, 0, 1, 1, 1, 2, 2);
+TrafficLevel = choose(2, 4, 8); //2, 2, 2, 2, 2, 4, 4, 4, 4, 8);
 
 switch(TrafficLevel)
 {
-    case 0:
+    case 2:
         image_blend = c_yellow;
         break;
-    case 1:
+    case 4:
         image_blend = c_orange;
         break;
-    case 2:
+    case 8:
         image_blend = c_red;
         break;
     default:
