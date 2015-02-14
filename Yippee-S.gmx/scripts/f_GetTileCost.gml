@@ -20,7 +20,7 @@ switch (MovementDirection)
         cost = Tile.CostToSouth;
         break;
     default:
-        cost = 1000;
+        cost = 999999;
         break;
 }
 

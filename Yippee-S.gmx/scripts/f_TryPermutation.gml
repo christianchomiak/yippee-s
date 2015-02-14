@@ -31,7 +31,7 @@ if (level == N)
     show_debug_message("Total: " + string(array_length_1d(Value)));*/
     
     var s = "";
-    var PointAIndex = PointA.column + (StartingTile.row * global.CityManager.NumberOfColumns);
+    var PointAIndex = PointA.column + (PointA.row * global.CityManager.NumberOfColumns);
     
     var path;
     path[0] = -1

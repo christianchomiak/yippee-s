@@ -6,6 +6,7 @@
   <NewExtensions/>
   <sounds name="sound">
     <sound>sound\a_BGM</sound>
+    <sound>sound\a_BGM2</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_Road</sprite>
@@ -45,6 +46,7 @@
     <script>scripts\f_GetTileNeighbor.gml</script>
     <script>scripts\f_TryPermutation.gml</script>
     <script>scripts\f_ReconstructPath.gml</script>
+    <script>scripts\f_GetSelectedPathCost.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\object0</object>

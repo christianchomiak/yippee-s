@@ -34,6 +34,8 @@ Velocity = 0; //-global.CityManager.CellSize * 0.25;
 MaxJumpDistance = 0; //y - global.CityManager.CellSize;
 BaseJumpDistance = 0;
 JumpDistance = 0;
+
+Reached = false;
 </string>
           </argument>
         </arguments>
@@ -56,7 +58,9 @@ JumpDistance = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>if Reached
+    exit;
+
 y += Velocity * f_GetDeltaTime();
 
 if sign(Velocity) == -1 and y &lt; MaxJumpDistance
@@ -69,6 +73,15 @@ if sign(Velocity) == 1 and y &gt; BaseJumpDistance
 {
     y = BaseJumpDistance;
     Velocity *= -1;
+}
+
+var possibleCar = instance_position(x, y, o_Car);
+
+if possibleCar != noone
+{
+    image_blend = c_blue;
+    Reached = true;
+    y = BaseJumpDistance;
 }
 </string>
           </argument>

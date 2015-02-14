@@ -93,8 +93,8 @@ for (var i = 0; i < V; i++)
 }
 
 
+//Get best minimum trip cost
 global.minCost = 3000;
-
 var Value;
 var N = ds_list_size(ListOfGoals);
 global.total = 0;
@@ -105,23 +105,6 @@ for (var j = 0; j < N; j++)
 f_TryPermutation(0, N, Value, -1);
 var minCost = global.minCost;
 
-/*for (var i = 0; i < ds_list_size(ListOfGoals); i ++)
-{
-
-}
-
-for (var i = 0; i < ds_list_size(ListOfGoals); i ++)
-{
-    var EndingTile = ds_list_find_value(ListOfGoals, i);  
-    var endingIndex = EndingTile.column + (EndingTile.row * global.CityManager.NumberOfColumns);
-    
-    minCost = min(minCost, costsGrid[startingIndex, endingIndex]);
-}*/
-
-
-//var finalCost = costsGrid[startingIndex, endingIndex];
-
-costsGrid = 0;
-//ds_grid_destroy(costsGrid);
+//costsGrid = 0;
 
 return minCost; //finalCost;

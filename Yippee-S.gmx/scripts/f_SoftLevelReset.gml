@@ -194,23 +194,11 @@ ds_list_destroy(FreeSpots);
 /*Selected Path*/
 while f_RemoveLastTileFromPath() != -1 {}
  
-/*for (var iii = 0; iii < ds_list_size(SelectedPath); iii++)
-{
-    f_RemoveLastTileFromPath();
-}*/
+
 ds_list_clear(SelectedPath);
 f_AddTileToPath(CityGrid[CarStartingColumn, CarStartingRow]);
+SelectedPathCost = 0;
 
 StartingTile = ds_list_find_value(SelectedPath, 0);
 BestTime = f_GetPathCost(); //, ds_list_find_value(ListOfGoals, 0));
-
-/*var Value;
-var N = 8;
-global.total = 0;
-for (var j = 0; j < N; j++)
-{
-    Value[j] = 0;
-}
-f_TryPermutation(0, N, Value, -1);*/
-
 show_debug_message("Total: " + string(global.total));

@@ -28,11 +28,11 @@
             <string>///Creation
 global.CityManager = self.id;
 
-random_set_seed(0);
-//randomize();
+//random_set_seed(0);
+randomize();
 
-/*if !audio_is_playing(a_BGM)
-    audio_play_sound(a_BGM, 1, true);*/
+if !audio_is_playing(a_BGM2)
+    audio_play_sound(a_BGM2, 1, true);
 
 /*Globar variables*/
 StreetDepth = 0;
@@ -50,24 +50,28 @@ ListOfGoals = ds_list_create();
 car = instance_create(0, 0, o_Car);
 
 BestTime = 0;
+SelectedPathCost = 0;
 
-minNumCol = 3;
-maxNumCol = 4;
+minNumCol = 4;
+maxNumCol = 8;
 
-minNumRow = 3;
-maxNumRow = 4;
+minNumRow = 4;
+maxNumRow = 6;
 
-MinTraf = 0.75;//0.5;
-MaxTraf = 0.75;//0.5;
+MinTraf = 0.25; //0.5;
+MaxTraf = 0.75; //0.5;
 
 minNumGoals = 1;
-maxNumGoals = 4;
+maxNumGoals = 3;
 
 f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
                              irandom_range(minNumCol, maxNumCol), 
                              random_range(MinTraf, MaxTraf), 
                              irandom_range(minNumGoals, maxNumGoals)
                  );
+                 
+                 
+DebugMode = false;
 </string>
           </argument>
         </arguments>
@@ -102,6 +106,10 @@ else if keyboard_check_pressed(ord('G'))
 else if keyboard_check_pressed(ord('R'))
 {
     game_restart();
+}
+else if keyboard_check_pressed(ord('D'))
+{
+    DebugMode = !DebugMode;
 }
 else if keyboard_check_pressed(vk_space) //if car.HasArrived and 
     f_SoftLevelReset(random_range(MinTraf, MaxTraf), 
@@ -148,6 +156,7 @@ if global.CityManager.IsSelectionPhase and
 {
     global.CityManager.IsSelectionPhase = false;
     global.CityManager.UsingGPSView = false;
+    global.CityManager.SelectedPathCost = f_GetSelectedPathCost();
 }
 </string>
           </argument>
@@ -243,11 +252,13 @@ draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.Cit
 
 if car.HasArrived
 {
-    draw_text(room_width / 2, room_height * 0.95, "ARRIVED!");
+    draw_text(room_width * 0.5, room_height * 0.92, "ARRIVED!");
 }
 
-draw_text(room_width * 0.25, room_height * 0.95, "Best: " + string(BestTime));
-
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+draw_text(room_width * 0.5, room_height * 0.95, "Best Path: " + string(BestTime / 2) + " | Player Path: " + string(SelectedPathCost / 2));
+//"Best: " + string(BestTime) + 
 depth = -10;
 </string>
           </argument>
