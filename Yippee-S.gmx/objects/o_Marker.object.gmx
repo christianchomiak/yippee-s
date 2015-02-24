@@ -28,7 +28,7 @@
             <string>
 image_blend = choose(c_red);
 
-depth = global.CityManager.MarkerDepth;
+depth = global.MarkerDepth;
 
 Velocity = 0; //-global.CityManager.CellSize * 0.25;
 MaxJumpDistance = 0; //y - global.CityManager.CellSize;

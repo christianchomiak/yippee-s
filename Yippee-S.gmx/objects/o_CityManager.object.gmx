@@ -29,17 +29,17 @@
 global.CityManager = self.id;
 
 //random_set_seed(0);
-randomize();
+//randomize();
 
-if !audio_is_playing(a_BGM2)
-    audio_play_sound(a_BGM2, 1, true);
+//if !audio_is_playing(a_BGM2)
+//    audio_play_sound(a_BGM2, 1, true);
 
 /*Globar variables*/
-StreetDepth = 0;
+/*StreetDepth = 0;
 TrafficDepth = -1;
 BuildingDepth = -2;
 GPSCarDepth = -5;
-MarkerDepth = -100;
+MarkerDepth = -100;*/
 CityGrid = 0;
 //CityGrid = ds_grid_create(1, 1);
 SelectedPath = ds_list_create();
@@ -218,9 +218,9 @@ if global.CityManager.UsingGPSView
 }
 else
 {
-    for (var r = 0; r &lt; NumberOfRows; r++)
+    for (var r = 0; r &lt; NumberOfRows; r += 0.5)
     {
-        for (var c = 0; c &lt; NumberOfColumns; c++)
+        for (var c = 0; c &lt; NumberOfColumns; c += 0.5)
         {
             if (r != 0 and r != NumberOfRows - 1) and (c != 0 and c != NumberOfColumns - 1)
                 continue;
@@ -236,7 +236,7 @@ else
             else if c == NumberOfColumns - 1            
                 offsetX = 0.3625;
             
-            var scale = (CellSize / sprite_get_width(s_Tree)) * 0.85;
+            var scale = (CellSize / sprite_get_width(s_Tree)) * 0.55;
             var typeOfTree = (r * NumberOfColumns) + c;
             draw_sprite_ext(s_Tree, typeOfTree, f_PositionInWorld(StartingX, c + offsetX, CellSize, true), f_PositionInWorld(StartingY, r + offsetY, CellSize, true), scale, scale, 0, c_white, 1);
         }

@@ -60,13 +60,13 @@ else
     if instance_exists(global.CityManager.car)
     {
         if y &gt; global.CityManager.car.y
-            depth = global.CityManager.GPSCarDepth - 1;
+            depth = global.GPSCarDepth - 1;
         else
-            depth = global.CityManager.GPSCarDepth + 1;
+            depth = global.GPSCarDepth + 1;
     }
     else
     {
-        depth = global.CityManager.BuildingDepth;
+        depth = global.BuildingDepth;
     }
 
     visible = true;

@@ -28,7 +28,7 @@
             <string>///Creation
 
 //depth = -5;
-depth = global.CityManager.GPSCarDepth;
+depth = global.GPSCarDepth;
 image_speed = 0;
 
 f_ResetCar(self.id, 0, 0, 0);

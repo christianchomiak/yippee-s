@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>depth = global.CityManager.TrafficDepth;
+            <string>depth = global.TrafficDepth;
 image_alpha = 0.75;
 
 TrafficLevel = choose(2, 4, 8); //2, 2, 2, 2, 2, 4, 4, 4, 4, 8);

@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>///Creation
 
-depth = global.CityManager.StreetDepth;
+depth = global.StreetDepth;
 //IsSelected = false;
 
 currentHighlightDirection = 5;
