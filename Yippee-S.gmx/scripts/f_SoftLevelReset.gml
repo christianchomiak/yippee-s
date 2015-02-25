@@ -92,6 +92,8 @@ for (var iii = 0; iii < ds_list_size(ListOfTrafficJams); iii++)
 }
 ds_list_clear(ListOfTrafficJams);
 
+PercentageOfTrafficJams = min(PercentageOfTrafficJams, 1);
+PercentageOfTrafficJams = max(PercentageOfTrafficJams, 0);
 NumberOfTrafficJams = floor(PercentageOfTrafficJams * ds_list_size(FreeSpots)); //irandom_range(minJams, maxJams);
 
 /*var s = "Free Spots = " + string(ds_list_size(FreeSpots));

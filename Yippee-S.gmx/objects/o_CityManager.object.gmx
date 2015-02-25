@@ -64,11 +64,14 @@ MaxTraf = 0.75; //0.5;
 minNumGoals = 1;
 maxNumGoals = 3;
 
-f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
+global.CurrentLevel = 0;
+f_LoadNewLevel();
+
+/*f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
                              irandom_range(minNumCol, maxNumCol), 
                              random_range(MinTraf, MaxTraf), 
                              irandom_range(minNumGoals, maxNumGoals)
-                 );
+                 );*/
                  
                  
 DebugMode = false;
@@ -115,11 +118,12 @@ else if keyboard_check_pressed(vk_space) //if car.HasArrived and
     f_SoftLevelReset(random_range(MinTraf, MaxTraf), 
                      irandom_range(minNumGoals, maxNumGoals));
 else if keyboard_check_pressed(vk_enter)
-    f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
+    f_LoadNewLevel();
+    /*f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
                                  irandom_range(minNumCol, maxNumCol),                                  
                                  random_range(MinTraf, MaxTraf),  
                                  irandom_range(minNumGoals, maxNumGoals)
-                     );
+                     );*/
 
 /*for (var r = 0; r &lt; 5; r++)
 {

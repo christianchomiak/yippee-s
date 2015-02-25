@@ -50,6 +50,7 @@
     <script>scripts\f_ReconstructPath.gml</script>
     <script>scripts\f_GetSelectedPathCost.gml</script>
     <script>scripts\f_GameVariablesInit.gml</script>
+    <script>scripts\f_LoadNewLevel.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\object0</object>

@@ -31,11 +31,6 @@ if ds_exists(CityGrid, ds_type_grid)
         }
     }    
     ds_grid_destroy(CityGrid);
-    show_debug_message("YUP");
-}
-else
-{
-    show_debug_message("NOPE");
 }
 
 /**/
@@ -76,7 +71,7 @@ for (var r = 0; r < NumberOfRows; r++)
                 {
                     CityGrid[c, r].image_angle = 90;
                 }
-                else if r == 0 and c - 1
+                else if r == 0 and c == NumberOfColumns -1 //c - 1
                 {
                     CityGrid[c, r].image_angle = 270;
                 }

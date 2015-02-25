@@ -57,12 +57,14 @@ f_ResetCar(self.id, 0, 0, 0);
             <string>if global.CityManager.UsingGPSView
 {
     sprite_index = s_Car;
+    image_xscale = (global.CityManager.CellSize / sprite_get_width(sprite_index)) * 0.15;  
+    image_yscale = image_xscale;
     //depth = global.CityManager.GPSCarDepth;
 }
 else
 {
     sprite_index = s_CarAlt;
-    image_xscale = (global.CityManager.CellSize / sprite_get_width(sprite_index)) * 0.5; ;//  
+    image_xscale = (global.CityManager.CellSize / sprite_get_width(sprite_index)) * 0.35; 
     image_yscale = image_xscale;
     
     //depth = global.CityManager.GPSCarDepth - (y / room_height);

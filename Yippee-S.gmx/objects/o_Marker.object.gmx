@@ -26,7 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>
-image_blend = choose(c_red);
+image_blend = c_red; //choose(c_red, c_black, c_green);
 
 depth = global.MarkerDepth;
 
