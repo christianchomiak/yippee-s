@@ -13,11 +13,12 @@
     <sprite>sprites\s_RoadAlt</sprite>
     <sprite>sprites\s_RoadDummy</sprite>
     <sprite>sprites\s_Traffic</sprite>
-    <sprite>sprites\s_TrafficAlt</sprite>
+    <sprite>sprites\s_TrafficBU</sprite>
     <sprite>sprites\s_Car</sprite>
     <sprite>sprites\s_CarAlt</sprite>
     <sprite>sprites\s_Destiny</sprite>
     <sprite>sprites\s_Marker</sprite>
+    <sprite>sprites\s_BuildingBU</sprite>
     <sprite>sprites\s_Building</sprite>
     <sprite>sprites\s_Tree</sprite>
     <sprite>sprites\s_Logo</sprite>

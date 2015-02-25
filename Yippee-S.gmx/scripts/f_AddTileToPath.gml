@@ -44,8 +44,6 @@ if f_CheckIfPathIsCoherent(_tile.id)
         }
     }
     
-
-    
     ds_list_add(global.CityManager.SelectedPath, _tile); 
     _tile.image_alpha = 1;//0.25;
     //_tile.image_blend = c_blue;    
