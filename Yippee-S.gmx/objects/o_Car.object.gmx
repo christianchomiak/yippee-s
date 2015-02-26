@@ -161,26 +161,36 @@ if !HasArrived
     
     var newDirX = currentTarget.x - x;
     var newDirY = currentTarget.y - y;
+    var distance = sqr((newDirX*newDirX) + (newDirY*newDirY));
     
-    if (dirX &gt; 0 &amp;&amp; newDirX &lt; 0) or (dirY &gt; 0 &amp;&amp; newDirY &lt; 0)
+    if (dirX &gt; 0 &amp;&amp; newDirX &lt; 0) or (dirY &gt; 0 &amp;&amp; newDirY &lt; 0) or distance &lt; vel * f_GetDeltaTime()
     {        
         x = currentTarget.x;
         y = currentTarget.y;
-               
+                  
+        if (currentTarget.HasMarker)
+        {
+            f_ReachMarker(currentTarget.marker);        
+        }
+        
         CurrentPathIndex++;
         exit;
     }
     
     //move_towards_point(currentTarget.x, currentTarget.y, vel);
     
-    var distance = sqr((newDirX*newDirX) + (newDirY*newDirY));
-    if distance &lt; vel * f_GetDeltaTime()
+    /*if distance &lt; vel * f_GetDeltaTime()
     {
         x = currentTarget.x;
         y = currentTarget.y;
                
+        if (currentTarget.HasMarker)
+        {
+            f_ReachMarker(currentTarget.marker);        
+        }
+        
         CurrentPathIndex++;
-    }
+    }*/
 }
 </string>
           </argument>

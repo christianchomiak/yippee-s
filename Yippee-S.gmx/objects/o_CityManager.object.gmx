@@ -44,6 +44,7 @@ SelectedPath = ds_list_create();
 ListOfTrafficJams = ds_list_create();
 ListOfBuildings = ds_list_create();
 ListOfGoals = ds_list_create();
+ListOfSecondaryGoals = ds_list_create();
 
 car = instance_create(0, 0, o_Car);
 
@@ -61,6 +62,9 @@ MaxTraf = 0.75; //0.5;
 
 minNumGoals = 1;
 maxNumGoals = 3;
+
+minNumSecGoals = 1;
+maxNumSecGoals = 3;
 
 global.CurrentLevel = 0;
 f_LoadNewLevel();
@@ -115,7 +119,8 @@ else if keyboard_check_pressed(ord('D'))
 }
 else if keyboard_check_pressed(vk_space) //if car.HasArrived and 
     f_SoftLevelReset(random_range(MinTraf, MaxTraf), 
-                     irandom_range(minNumGoals, maxNumGoals));
+                     irandom_range(minNumGoals, maxNumGoals),
+                     irandom_range(minNumSecGoals, maxNumSecGoals),);
 else if keyboard_check_pressed(vk_enter)
     f_LoadNewLevel();
     /*f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
@@ -191,6 +196,7 @@ ds_list_destroy(SelectedPath);
 ds_list_destroy(ListOfTrafficJams);
 ds_list_destroy(ListOfBuildings);
 ds_list_destroy(ListOfGoals);
+ds_list_destroy(ListOfSecondaryGoals);
 </string>
           </argument>
         </arguments>

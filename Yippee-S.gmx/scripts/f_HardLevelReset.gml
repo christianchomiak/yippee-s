@@ -1,11 +1,12 @@
-///f_HardLevelReset(CityWidth, CityHeight, NumberOfRows, NumberOfColumns, PercentageOfTrafficJams, NumberOfGoals)
+///f_HardLevelReset(CityWidth, CityHeight, NumberOfRows, NumberOfColumns, PercentageOfTrafficJams, NumberOfPrimaryGoals, NumberOfSecondaryGoals)
 
 CityWidth = argument0 * room_width;
 CityHeight = argument1 * room_height;
 NumberOfRows = argument2;
 NumberOfColumns = argument3;
 PercentageOfTrafficJams = argument4;
-NumberOfGoals = argument5;
+NumberOfPrimaryGoals = argument5;
+NumberOfSecondaryGoals = argument6;
 
 CellSize = min(CityWidth / NumberOfColumns, CityHeight / NumberOfRows);
 
@@ -133,4 +134,4 @@ for (var r = 1; r < NumberOfRows; r++)
 global.RandomTreeTypeOffset = irandom_range(0, 2);
 
 //Car, destination and traffic jams
-f_SoftLevelReset(PercentageOfTrafficJams, NumberOfGoals);
+f_SoftLevelReset(PercentageOfTrafficJams, NumberOfPrimaryGoals, NumberOfSecondaryGoals);

@@ -1,9 +1,12 @@
-///f_SoftLevelReset(PercentageOfTrafficJams, NumberOfGoals)
+///f_SoftLevelReset(PercentageOfTrafficJams, NumberOfPrimaryGoals, NumberOfSecondaryGoals)
 
 PercentageOfTrafficJams = argument0;
-NumberOfGoals = argument1;
+NumberOfPrimaryGoals = argument1;
+NumberOfSecondaryGoals = argument2;
 
-NumberOfGoals = min(NumberOfGoals, 8); //min(ds_list_size(FreeSpots) * 0.1));
+NumberOfPrimaryGoals = min(NumberOfPrimaryGoals, 8); //min(ds_list_size(FreeSpots) * 0.1));
+
+TotalNumberOfGoals = NumberOfPrimaryGoals + NumberOfSecondaryGoals;
 
 /*Game status*/
 IsSelectionPhase = true;
@@ -30,6 +33,16 @@ for (var iii = 0; iii < ds_list_size(ListOfGoals); iii++)
 }
 ds_list_clear(ListOfGoals);
 
+for (var iii = 0; iii < ds_list_size(ListOfSecondaryGoals); iii++)
+{
+    var tempGoal = ds_list_find_value(ListOfSecondaryGoals, iii);
+    with tempGoal
+    {
+        instance_destroy();
+    }
+}
+ds_list_clear(ListOfSecondaryGoals);
+
 
 
 //List of places where goals and traffic jams could be
@@ -47,6 +60,7 @@ for (var r = 0; r < NumberOfRows; r++)
         CityGrid[c, r].CostToWest = 1; //0.5;
         
         CityGrid[c, r].HasMarker = false;
+        CityGrid[c, r].marker = -4;
     
         if (c != CarStartingColumn || r != CarStartingRow)
         {
@@ -56,9 +70,9 @@ for (var r = 0; r < NumberOfRows; r++)
 }
 ds_list_shuffle(FreeSpots);
 
-//Create goals
+//Create primary goals
 var TotalGoalsCreated = 0;
-while TotalGoalsCreated < NumberOfGoals
+while TotalGoalsCreated < NumberOfPrimaryGoals
 {
     var CurrentGoalPosition = ds_list_find_value(FreeSpots, 0);
 
@@ -75,6 +89,7 @@ while TotalGoalsCreated < NumberOfGoals
     marker.row = CurrentGoalPosition.row;
     
     CurrentGoalPosition.HasMarker = true;
+    CurrentGoalPosition.marker = marker.id;
     
     ds_list_add(ListOfGoals, marker);
     ds_list_delete(FreeSpots, 0);
@@ -82,6 +97,30 @@ while TotalGoalsCreated < NumberOfGoals
 }
 ds_list_shuffle(FreeSpots); //AvailableTrafficJamSpots);
 
+TotalGoalsCreated = 0;
+while TotalGoalsCreated < NumberOfSecondaryGoals && ds_list_size(FreeSpots) > 0
+{
+    var CurrentGoalPosition = ds_list_find_value(FreeSpots, 0);
+
+    var DestinationPositionX = f_PositionInWorld(StartingX, CurrentGoalPosition.column, CellSize, true);
+    var DestinationPositionY = f_PositionInWorld(StartingY, CurrentGoalPosition.row, CellSize, true);
+    
+    var marker = instance_create(DestinationPositionX, DestinationPositionY, o_Marker);
+    marker.image_xscale = 0.2 * (CellSize / sprite_get_width(marker.sprite_index)); 
+    marker.image_yscale = marker.image_xscale;
+    marker.Velocity = -CellSize * 0.125;
+    marker.MaxJumpDistance = marker.y - (CellSize * 0.125);
+    marker.BaseJumpDistance = marker.y;
+    marker.column = CurrentGoalPosition.column;
+    marker.row = CurrentGoalPosition.row;
+    marker.image_blend = c_blue;
+    CurrentGoalPosition.HasMarker = true;
+    CurrentGoalPosition.marker = marker.id;
+    
+    ds_list_add(ListOfSecondaryGoals, marker);
+    ds_list_delete(FreeSpots, 0);
+    TotalGoalsCreated++;
+}
 
 /*Traffic Jams*/
 

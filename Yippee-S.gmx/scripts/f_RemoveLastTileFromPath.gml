@@ -21,7 +21,7 @@ if instance_exists(LastItem)
     
     if LastIndex - 1 == 0
     {
-        show_debug_message("LAST");
+        //show_debug_message("LAST");
         var origin = ds_list_find_value(global.CityManager.SelectedPath, 0);
         origin.currentHighlightDirection = 5;
     }
@@ -34,4 +34,3 @@ else
     
     return -2;
 }
-

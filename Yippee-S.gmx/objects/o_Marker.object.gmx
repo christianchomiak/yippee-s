@@ -79,10 +79,11 @@ var possibleCar = instance_position(x, y, o_Car);
 
 if possibleCar != noone
 {
-    image_blend = c_dkgray;//c_blue;
+    //f_ReachMarker(self.id);
+    /*image_blend = c_dkgray;//c_blue;
     Reached = true;
     y = BaseJumpDistance;
-       audio_play_sound(x_Coin3, 1, false);
+       audio_play_sound(x_Coin3, 1, false);*/
 }
 </string>
           </argument>
