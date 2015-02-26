@@ -7,6 +7,10 @@
   <sounds name="sound">
     <sound>sound\a_BGM</sound>
     <sound>sound\a_BGM2</sound>
+    <sound>sound\x_Blip</sound>
+    <sound>sound\x_Coin1</sound>
+    <sound>sound\x_Coin2</sound>
+    <sound>sound\x_Coin3</sound>
   </sounds>
   <sprites name="sprites">
     <sprite>sprites\s_Road</sprite>

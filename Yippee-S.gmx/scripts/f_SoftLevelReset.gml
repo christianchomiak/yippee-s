@@ -45,6 +45,8 @@ for (var r = 0; r < NumberOfRows; r++)
         CityGrid[c, r].CostToSouth = 1; //0.5;
         CityGrid[c, r].CostToEast = 1; //0.5;
         CityGrid[c, r].CostToWest = 1; //0.5;
+        
+        CityGrid[c, r].HasMarker = false;
     
         if (c != CarStartingColumn || r != CarStartingRow)
         {
@@ -64,13 +66,15 @@ while TotalGoalsCreated < NumberOfGoals
     var DestinationPositionY = f_PositionInWorld(StartingY, CurrentGoalPosition.row, CellSize, true);
     
     var marker = instance_create(DestinationPositionX, DestinationPositionY, o_Marker);
-    marker.image_xscale = 0.125 * (CellSize / sprite_get_width(marker.sprite_index)); 
-    marker.image_yscale = marker.image_xscale;       
+    marker.image_xscale = 0.2 * (CellSize / sprite_get_width(marker.sprite_index)); 
+    marker.image_yscale = marker.image_xscale;
     marker.Velocity = -CellSize * 0.125;
     marker.MaxJumpDistance = marker.y - (CellSize * 0.125);
     marker.BaseJumpDistance = marker.y;
     marker.column = CurrentGoalPosition.column;
     marker.row = CurrentGoalPosition.row;
+    
+    CurrentGoalPosition.HasMarker = true;
     
     ds_list_add(ListOfGoals, marker);
     ds_list_delete(FreeSpots, 0);

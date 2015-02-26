@@ -6,9 +6,6 @@ var prevHighlightDirection = tile.currentHighlightDirection;
 
 var newHighlightDirection = 5;
 
-
-show_debug_message("Prev: " + string(prevHighlightDirection) + ", Dir: " + string(dir));
-
 if prevHighlightDirection == 2 and dir == 8 { newHighlightDirection = 28; }
 else if prevHighlightDirection == 2 and dir == 6 { newHighlightDirection = 26; }
 else if prevHighlightDirection == 2 and dir == 4 { newHighlightDirection = 24; }
@@ -81,7 +78,6 @@ else if prevHighlightDirection == 5 and dir == 8 { newHighlightDirection = 8; }
 else 
 {
     newHighlightDirection = 5;
-    show_debug_message("5: " + string(prevHighlightDirection));
 }
 
     //show_message("Prev: " + string(prevHighlightDirection) + " | Mv: " + string(dir) + " | New: " + string(newHighlightDirection));

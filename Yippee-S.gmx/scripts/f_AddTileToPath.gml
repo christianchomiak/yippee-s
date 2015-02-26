@@ -48,4 +48,6 @@ if f_CheckIfPathIsCoherent(_tile.id)
     _tile.image_alpha = 1;//0.25;
     //_tile.image_blend = c_blue;    
     _tile.IsSelected = true;
+    if _tile.HasMarker
+       audio_play_sound(x_Coin1, 1, false);
 }

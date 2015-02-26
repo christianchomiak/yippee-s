@@ -130,5 +130,7 @@ for (var r = 1; r < NumberOfRows; r++)
     }
 }
 
+global.RandomTreeTypeOffset = irandom_range(0, 2);
+
 //Car, destination and traffic jams
 f_SoftLevelReset(PercentageOfTrafficJams, NumberOfGoals);

@@ -29,6 +29,12 @@
 
 f_GameVariablesInit();
 
+if false and !audio_is_playing(a_BGM)
+{
+    audio_play_sound(a_BGM, 1, true);
+    audio_sound_gain(a_BGM, 0.25, 0);
+}
+
 randomNumber = irandom_range(0, 9);
 
 
