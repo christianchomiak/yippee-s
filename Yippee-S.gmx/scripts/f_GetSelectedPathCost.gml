@@ -14,4 +14,3 @@ for (var i = 0; i < ds_list_size(SelectedPath) - 1; i++)
 }
 
 return selectedPathCost;
-

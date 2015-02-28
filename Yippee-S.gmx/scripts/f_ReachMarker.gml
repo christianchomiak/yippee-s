@@ -10,3 +10,4 @@ if marker.isOptional
    global.CityManager.collectedPois += 1;
 
 audio_play_sound(x_Coin3, 1, false);
+audio_sound_gain(x_Coin3, 0.25, 0);

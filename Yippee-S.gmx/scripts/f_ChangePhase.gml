@@ -15,6 +15,7 @@ else if p == phase.movement
 }
 else if p == phase.results
 {
+    draw_set_font(fnt_Results);
     global.CityManager.resultsobject = instance_create(room_width * 0.5, room_height * 0.5, o_Results);          
 }
 else

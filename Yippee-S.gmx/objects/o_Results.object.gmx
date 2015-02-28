@@ -65,6 +65,48 @@ if currentTime &gt;= timeUntilShow
         </arguments>
       </action>
     </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//CurrentY = y
+//Margin = 10
+
+
+/*draw_set_font(fnt_Countdown)
+f_DrawTextAndUpdateCurrentY("NOXP")
+
+draw_set_font(fnt_Countdown)
+f_DrawTextAndUpdateCurrentY("A game made for a tutorial.")*/
+
+if f_ButtonPressed("Next Test", room_width * 0.65, room_height * 0.75, 10) 
+{
+    //go to next level
+    f_ChangePhase(phase.init);
+}
+
+if f_ButtonPressed("Quit Tests", room_width * 0.35, room_height * 0.75, 10) 
+{
+    room_goto(0);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
@@ -85,18 +127,20 @@ if currentTime &gt;= timeUntilShow
             <string>
 //var fontSize = room_width
 
-var scaleX = room_width / sprite_get_width(s_Results) * 0.75; /// sprite_get_width(s_Results); //) * 0.55;
-var scaleY = room_height / sprite_get_height(s_Results) * 0.75; /// sprite_get_height(s_Results); //) * 0.55;
+//var scaleX = room_width / sprite_get_width(s_Results) * 0.75; /// sprite_get_width(s_Results); //) * 0.55;
+//var scaleY = room_height / sprite_get_height(s_Results) * 0.75; /// sprite_get_height(s_Results); //) * 0.55;
 var resultsX = room_width * 0.5;
 var resultsY = room_height * 0.5;
 //draw_sprite_ext(s_Results, 0, resultsX, resultsY, scaleX, scaleY, 0, c_white, 1);
 draw_sprite_ext(s_ResultsBg, 0, resultsX, resultsY, room_width * 0.375, room_height * 0.375, 0, c_white, 1);
 
-draw_text_transformed(resultsX, resultsY - (room_height * 0.275), "YIPPEE-S v23.8.88", 1.5, 1.5, 0);//, scaleX * 0.5, scaleY * 0.5, 0);
+draw_set_font(fnt_Countdown);
+draw_text_transformed(resultsX, resultsY - (room_height * 0.275), "YIPPEE-S v23.8.88", 0.5, 0.5, 0);//, scaleX * 0.5, scaleY * 0.5, 0);
+draw_set_font(fnt_Results);
 draw_text(resultsX, resultsY - (room_height * 0.2), "[PERFORMANCE REPORT]");//, scaleX * 0.5, scaleY * 0.5, 0);
 
 var bestTimeX = resultsX;
-var bestTimeY = resultsY;
+var bestTimeY = resultsY - (room_height * 0.05);
 draw_text(bestTimeX - (room_width * 0.175), bestTimeY, "BEST PATH:");//, scaleX * 0.5, scaleY * 0.5, 0);
 draw_text(bestTimeX + (room_width * 0.175), bestTimeY, string(global.CityManager.BestTime * 2.5) + " minutes");//, scaleX * 0.5, scaleY * 0.5, 0);
 

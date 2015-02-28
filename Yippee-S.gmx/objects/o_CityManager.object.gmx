@@ -134,15 +134,11 @@ else if keyboard_check_pressed(ord('D'))
 {
     DebugMode = !DebugMode;
 }
-else if keyboard_check_pressed(vk_space) //if car.HasArrived and 
+/*else if keyboard_check_pressed(vk_space)
     f_SoftLevelReset(random_range(MinTraf, MaxTraf), 
                      irandom_range(minNumGoals, maxNumGoals),
-                     irandom_range(minNumSecGoals, maxNumSecGoals),);
-else if keyboard_check_pressed(vk_enter)
-{
-    if global.CityManager.currentPhase == phase.results
-       f_ChangePhase(phase.init);
-}
+                     irandom_range(minNumSecGoals, maxNumSecGoals));*/
+
 
     //f_LoadNewLevel();
     /*f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 

@@ -86,7 +86,7 @@ for (var i = 0; i < V; i++)
         var row2 = j div global.CityManager.NumberOfColumns;
         var col2 = j mod global.CityManager.NumberOfColumns;   
         
-        show_debug_message("(" + string(col1) + ", " + string(row1) + ") -> " + "(" + string(col2) + ", " + string(row2) + ") == "  + string(costsGrid[i, j]));
+        //show_debug_message("(" + string(col1) + ", " + string(row1) + ") -> " + "(" + string(col2) + ", " + string(row2) + ") == "  + string(costsGrid[i, j]));
         
         //show_debug_message("i: " + string(i) + ", j: " + string(j) + ", C: " + string(costsGrid[i, j]));
     }

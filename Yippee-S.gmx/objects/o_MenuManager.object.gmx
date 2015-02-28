@@ -27,12 +27,20 @@
             <kind>1</kind>
             <string>depth = -100;
 
-f_GameVariablesInit();
+x = 0;//view_wport[0] / 2
+y = 0;//view_hport[0] / 2
 
-if false and !audio_is_playing(a_BGM)
+f_GameVariablesInit();
+draw_set_halign(fa_center)
+draw_set_valign(fa_top)
+
+draw_set_font(fnt_Menu);
+   
+
+if true and !audio_is_playing(a_BGM)
 {
     audio_play_sound(a_BGM, 1, true);
-    audio_sound_gain(a_BGM, 0.25, 0);
+    audio_sound_gain(a_BGM, 0.05, 0);
 }
 
 randomNumber = irandom_range(0, 9);
@@ -46,7 +54,7 @@ NumberOfColumns = 6;
 CellSize = min(CityWidth / NumberOfColumns, CityHeight / NumberOfRows);
 
 SideBorderSize = (room_width - NumberOfColumns * CellSize) * 0.5;
-TopBorderSize = (room_height - NumberOfRows * CellSize) * 0.85;
+TopBorderSize = (room_height - NumberOfRows * CellSize) * 0.75;
 
 StartingX = SideBorderSize;
 StartingY = TopBorderSize;
@@ -269,6 +277,53 @@ if (distance &lt; vel * f_GetDeltaTime()) or ((dirX &gt; 0 &amp;&amp; newDirX &l
                 targetCarRow += choose(1, -1);
         }  
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//CurrentY = y
+//Margin = 10
+
+
+/*draw_set_font(fnt_Countdown)
+f_DrawTextAndUpdateCurrentY("NOXP")
+
+draw_set_font(fnt_Countdown)
+f_DrawTextAndUpdateCurrentY("A game made for a tutorial.")*/
+
+if f_ButtonPressed("Test drive", room_width * 0.5, room_height * 0.9, 10) 
+{
+    //go to next room
+    room_goto(1)
+}
+
+if f_ButtonPressed("Credits", room_width * 0.25, room_height * 0.9, 10) 
+{
+    room_goto(2)
+}
+
+if f_ButtonPressed("Quit", room_width * 0.725, room_height * 0.9, 10) 
+{
+    game_end()
 }
 </string>
           </argument>

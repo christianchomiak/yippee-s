@@ -9,5 +9,5 @@ global.ResultsDepth = -150;
 global.CountdownDepth = -150;
 global.RandomTreeTypeOffset = irandom_range(0, 2);
 
-draw_set_font(fnt_Results);
+//draw_set_font(fnt_Results);
 draw_set_colour(c_white);
