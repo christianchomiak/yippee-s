@@ -33,6 +33,9 @@ timeUntilShow = 0.25;
 currentTime = 0;
 
 visible = false;
+
+x = room_width * 0.5;
+y = room_height * 0.5;
 </string>
           </argument>
         </arguments>
@@ -111,7 +114,31 @@ else
             <string>//draw_text(room_width * 0.5, room_height * 0.5, string(ceil(currentTime)));
 
 draw_set_font(fnt_Countdown);
-draw_text_transformed(room_width * 0.5, room_height * 0.5, string(ceil(currentTime)), 2, 2, 0);
+draw_set_halign(fa_center)
+draw_set_valign(fa_middle)
+var Margin = 20;
+var ButtonText = string(ceil(currentTime));
+
+//Find the corners of our box
+var BoxTop = y - (string_height(ButtonText) * 0.5)//- (Margin * 2.5)
+var TextTop = BoxTop + (Margin * 2.5);
+var BoxBottom = BoxTop + Margin + (string_height(ButtonText) * 0.5) + Margin;
+var HalfTextWidth = string_width(ButtonText) * 0.5;
+var BoxLeft = x - HalfTextWidth - (Margin * 2);
+var BoxRight = x + HalfTextWidth + (Margin * 2);
+
+draw_set_colour(make_colour_hsv(342,120,56)) //82
+
+//draw_text_transformed(room_width * 0.5, room_height * 0.5, string(ceil(currentTime)), 2, 2, 0);
+
+draw_set_alpha(0.9);
+draw_rectangle(BoxLeft,BoxTop,BoxRight,BoxBottom,false);
+draw_set_alpha(1);
+
+draw_set_colour(c_white);
+
+var CurrentY = TextTop;
+f_DrawTextAndUpdateCurrentY(ButtonText, x, CurrentY);
 </string>
           </argument>
         </arguments>

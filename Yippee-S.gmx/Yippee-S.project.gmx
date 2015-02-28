@@ -76,12 +76,14 @@
     <object>objects\o_Building</object>
     <object>objects\o_Marker</object>
     <object>objects\o_MenuManager</object>
+    <object>objects\o_CreditsManager</object>
     <object>objects\o_Results</object>
     <object>objects\o_Countdown</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_MainMenu</room>
-    <room>rooms\r_Test</room>
+    <room>rooms\r_Level</room>
+    <room>rooms\r_Credits</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

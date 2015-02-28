@@ -31,33 +31,27 @@ x = 0;//view_wport[0] / 2
 y = 0;//view_hport[0] / 2
 
 f_GameVariablesInit();
-draw_set_halign(fa_center)
-draw_set_valign(fa_top)
+draw_set_halign(fa_center);
+draw_set_valign(fa_top);
 
 draw_set_font(fnt_Menu);
-   
 
-if false and !audio_is_playing(a_BGM)
-{
-    audio_play_sound(a_BGM, 1, true);
-    audio_sound_gain(a_BGM, 0.05, 0);
-}
 
 randomNumber = irandom_range(0, 9);
 
 
-CityWidth = 0.75 * room_width;
-CityHeight = 0.75 * room_height;
-NumberOfRows = 4;
-NumberOfColumns = 6;
+CityWidth = 0.9 * room_width;
+CityHeight = 1 * room_height;
+NumberOfRows = 5;
+NumberOfColumns = 8;
 
 CellSize = min(CityWidth / NumberOfColumns, CityHeight / NumberOfRows);
 
-SideBorderSize = (room_width - NumberOfColumns * CellSize) * 0.5;
-TopBorderSize = (room_height - NumberOfRows * CellSize) * 0.75;
+SideBorderSize = (room_width - (NumberOfColumns * (CityWidth / NumberOfColumns))) * 0.5;
+TopBorderSize = (room_height - (NumberOfRows * (CityHeight / NumberOfRows)));
 
 StartingX = SideBorderSize;
-StartingY = TopBorderSize;
+StartingY = 0.1 * room_height; // TopBorderSize;
 
 carCol = irandom_range(0, NumberOfColumns - 1);
 carRow = irandom_range(0, NumberOfRows - 1);
@@ -67,64 +61,64 @@ carPosY = f_PositionInWorld(StartingY, carRow, CellSize, true);
 targetCarCol = carCol;
 targetCarRow = carRow;
 
-    if (targetCarCol == 0 and targetCarRow == 0)
-    {
+if (targetCarCol == 0 and targetCarRow == 0)
+{
+    if choose(true, false)
+        targetCarCol += 1;  
+    else
+        targetCarRow += 1;    
+}
+else if (targetCarCol == 0 and targetCarRow == NumberOfRows - 1)
+{        
+    if choose(true, false)
+        targetCarCol += 1;  
+    else
+        targetCarRow -= 1;   
+}
+else if (targetCarCol == NumberOfColumns -1 and targetCarRow == 0)
+{        
+    if choose(true, false)
+        targetCarCol -= 1;  
+    else
+        targetCarRow += 1;   
+}
+else if (targetCarCol == NumberOfColumns -1 and targetCarRow == NumberOfRows - 1)
+{        
+    if choose(true, false)
+        targetCarCol -= 1;  
+    else
+        targetCarRow -= 1;   
+}
+else
+{
+    if targetCarCol == 0            
         if choose(true, false)
             targetCarCol += 1;  
         else
-            targetCarRow += 1;    
-    }
-    else if (targetCarCol == 0 and targetCarRow == NumberOfRows - 1)
-    {        
-        if choose(true, false)
-            targetCarCol += 1;  
-        else
-            targetCarRow -= 1;   
-    }
-    else if (targetCarCol == NumberOfColumns -1 and targetCarRow == 0)
-    {        
+            targetCarRow += choose(1, -1);
+    else if targetCarCol == NumberOfColumns - 1            
         if choose(true, false)
             targetCarCol -= 1;  
         else
-            targetCarRow += 1;   
-    }
-    else if (targetCarCol == NumberOfColumns -1 and targetCarRow == NumberOfRows - 1)
-    {        
+            targetCarRow += choose(1, -1);
+    else if targetCarRow == 0            
         if choose(true, false)
-            targetCarCol -= 1;  
+            targetCarCol += choose(1, -1);  
         else
-            targetCarRow -= 1;   
-    }
+            targetCarRow += 1;
+    else if targetCarRow == NumberOfRows - 1            
+        if choose(true, false)
+            targetCarCol += choose(1, -1);  
+        else
+            targetCarRow -= 1;
     else
     {
-        if targetCarCol == 0            
-            if choose(true, false)
-                targetCarCol += 1;  
-            else
-                targetCarRow += choose(1, -1);
-        else if targetCarCol == NumberOfColumns - 1            
-            if choose(true, false)
-                targetCarCol -= 1;  
-            else
-                targetCarRow += choose(1, -1);
-        else if targetCarRow == 0            
-            if choose(true, false)
-                targetCarCol += choose(1, -1);  
-            else
-                targetCarRow += 1;
-        else if targetCarRow == NumberOfRows - 1            
-            if choose(true, false)
-                targetCarCol += choose(1, -1);  
-            else
-                targetCarRow -= 1;
+        if choose(true, false)
+            targetCarCol += choose(1, -1);  
         else
-        {
-            if choose(true, false)
-                targetCarCol += choose(1, -1);  
-            else
-                targetCarRow += choose(1, -1);
-        }  
-    }
+            targetCarRow += choose(1, -1);
+    }  
+}
 
 car_image_index = 0;
 
@@ -154,16 +148,16 @@ menuCarTimer = 0;
             <string>///Keyboard input
 if keyboard_check_pressed(vk_escape)
 {
-    game_end();
+    room_goto(0);
 }
-else if keyboard_check_pressed(vk_enter)
+/*else if keyboard_check_pressed(vk_enter)
 {
     room_goto(1);
 }
 else if keyboard_check_pressed(ord('R'))
 {
     game_restart();
-}
+}*/
 </string>
           </argument>
         </arguments>
@@ -300,30 +294,9 @@ if (distance &lt; vel * f_GetDeltaTime()) or ((dirX &gt; 0 &amp;&amp; newDirX &l
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//CurrentY = y
-//Margin = 10
-
-
-/*draw_set_font(fnt_Countdown)
-f_DrawTextAndUpdateCurrentY("NOXP")
-
-draw_set_font(fnt_Countdown)
-f_DrawTextAndUpdateCurrentY("A game made for a tutorial.")*/
-
-if f_ButtonPressed("Test drive", room_width * 0.5, room_height * 0.9, 10) 
+            <string>if f_ButtonPressed("Return", room_width * 0.5, room_height * 0.9, 10) 
 {
-    //go to next room
-    room_goto(1)
-}
-
-if f_ButtonPressed("Credits", room_width * 0.25, room_height * 0.9, 10) 
-{
-    room_goto(2)
-}
-
-if f_ButtonPressed("Quit", room_width * 0.725, room_height * 0.9, 10) 
-{
-    game_end()
+    room_goto(0);
 }
 </string>
           </argument>
@@ -350,7 +323,7 @@ if f_ButtonPressed("Quit", room_width * 0.725, room_height * 0.9, 10)
             <string>
 
 /*City*/
-var CityGrid; // = ds_grid_create(NumberOfColumns, NumberOfRows);
+/*var CityGrid; // = ds_grid_create(NumberOfColumns, NumberOfRows);
 
 for (var r = 0; r &lt; NumberOfRows; r++)
 {
@@ -423,10 +396,10 @@ for (var r = 0; r &lt; NumberOfRows; r++)
 
 draw_sprite_ext(s_CarAlt, car_image_index, carPosX, carPosY, 1, 1, 0, c_white, 1);
 
-/*Buildings*/
-for (var r = 1; r &lt; NumberOfRows; r++)
+//Buildings
+for (var r = 1; r &lt; 0*NumberOfRows; r++)
 {
-    for (var c = 1; c &lt; NumberOfColumns; c++)
+    for (var c = 1; c &lt; 0*NumberOfColumns; c++)
     {
         var BuildingX = f_PositionInWorld(StartingX, c, CellSize, false);
         var BuildingY = f_PositionInWorld(StartingY, r + 0.25, CellSize, false);
@@ -435,12 +408,29 @@ for (var r = 1; r &lt; NumberOfRows; r++)
         draw_sprite_ext(s_Building, c * r + randomNumber, BuildingX, BuildingY, scale, scale, 0, c_white, 1);   
         //ds_list_add(ListOfBuildings, NewBuilding);
     }
-}
+}*/
 
-   
+var scaleX = room_width / sprite_get_width(s_Building);
+var scaleY = room_height / sprite_get_height(s_Building);
+draw_sprite_ext(s_Building, 7, room_width * 0.5, room_height * 0.975, scaleX * 1.7, scaleY * 1.3, 0, c_white, 1);   
+
+draw_text(room_width * 0.3375, room_height * 0.395, "Programmer"); 
+draw_text_transformed(room_width * 0.6625, room_height * 0.395, "Christian Chomiak", 0.65, 0.65, 0);
 
 
-draw_sprite_ext(s_Logo, 0, room_width * 0.5, room_height * 0.15, 1, 1, 0, c_white, 1);        
+draw_text(room_width * 0.3375, room_height * 0.5125, "Designers"); 
+draw_text_transformed(room_width * 0.6625, room_height * 0.5175, "Grace Gimon#Christian Chomiak", 0.65, 0.65, 0);
+
+draw_text(room_width * 0.3375, room_height * 0.635, "SFX"); 
+draw_text_transformed(room_width * 0.6625, room_height * 0.635, "www.bfxr.net", 0.85, 0.85, 0);
+        
+
+//draw_set_halign(fa_left);
+//draw_set_valign(fa_top);
+//draw_text(f_PositionInWorld(StartingX, 0, CellSize, true), f_PositionInWorld(StartingX, 0, CellSize, true), "Programmer: ");
+
+
+//draw_sprite_ext(s_Logo, 0, room_width * 0.5, room_height * 0.15, 1, 1, 0, c_white, 1);        
 </string>
           </argument>
         </arguments>
