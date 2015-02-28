@@ -87,6 +87,7 @@ while TotalGoalsCreated < NumberOfPrimaryGoals
     marker.BaseJumpDistance = marker.y;
     marker.column = CurrentGoalPosition.column;
     marker.row = CurrentGoalPosition.row;
+    marker.isOptional = false;
     
     CurrentGoalPosition.HasMarker = true;
     CurrentGoalPosition.marker = marker.id;
@@ -98,6 +99,9 @@ while TotalGoalsCreated < NumberOfPrimaryGoals
 ds_list_shuffle(FreeSpots); //AvailableTrafficJamSpots);
 
 TotalGoalsCreated = 0;
+//NumberOfSecondaryGoals = 0;
+totalPois = NumberOfSecondaryGoals;
+collectedPois = 0;
 while TotalGoalsCreated < NumberOfSecondaryGoals && ds_list_size(FreeSpots) > 0
 {
     var CurrentGoalPosition = ds_list_find_value(FreeSpots, 0);
@@ -114,6 +118,7 @@ while TotalGoalsCreated < NumberOfSecondaryGoals && ds_list_size(FreeSpots) > 0
     marker.column = CurrentGoalPosition.column;
     marker.row = CurrentGoalPosition.row;
     marker.image_blend = c_blue;
+    marker.isOptional = true;
     CurrentGoalPosition.HasMarker = true;
     CurrentGoalPosition.marker = marker.id;
     

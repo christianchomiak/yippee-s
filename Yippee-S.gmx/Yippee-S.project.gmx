@@ -26,6 +26,8 @@
     <sprite>sprites\s_Building</sprite>
     <sprite>sprites\s_Tree</sprite>
     <sprite>sprites\s_Logo</sprite>
+    <sprite>sprites\s_Results</sprite>
+    <sprite>sprites\s_ResultsBg</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -57,7 +59,12 @@
     <script>scripts\f_GameVariablesInit.gml</script>
     <script>scripts\f_LoadNewLevel.gml</script>
     <script>scripts\f_ReachMarker.gml</script>
+    <script>scripts\f_ChangePhase.gml</script>
   </scripts>
+  <fonts name="fonts">
+    <font>fonts\fnt_Results</font>
+    <font>fonts\fnt_Countdown</font>
+  </fonts>
   <objects name="objects">
     <object>objects\object0</object>
     <object>objects\o_CityManager</object>
@@ -67,6 +74,8 @@
     <object>objects\o_Building</object>
     <object>objects\o_Marker</object>
     <object>objects\o_MenuManager</object>
+    <object>objects\o_Results</object>
+    <object>objects\o_Countdown</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_MainMenu</room>

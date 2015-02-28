@@ -10,8 +10,8 @@ NumberOfSecondaryGoals = argument6;
 
 CellSize = min(CityWidth / NumberOfColumns, CityHeight / NumberOfRows);
 
-SideBorderSize = (room_width - NumberOfColumns * CellSize) / 2;
-TopBorderSize = (room_height - NumberOfRows * CellSize) / 2;
+SideBorderSize = (room_width - NumberOfColumns * CellSize) * 0.5;
+TopBorderSize = (room_height - NumberOfRows * CellSize) * 0.75;
 
 StartingX = SideBorderSize;
 StartingY = TopBorderSize;

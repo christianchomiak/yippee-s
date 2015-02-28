@@ -30,7 +30,7 @@ if (level == N)
     }
     show_debug_message("Total: " + string(array_length_1d(Value)));*/
     
-    var s = "";
+    //var s = "";
     var PointAIndex = PointA.column + (PointA.row * global.CityManager.NumberOfColumns);
     
     var path;
@@ -42,7 +42,7 @@ if (level == N)
         
         var PointBIndex = PointB.column + (PointB.row * global.CityManager.NumberOfColumns);
         
-        s += "(" + string(PointAIndex) + ", " + string(PointBIndex) + ")" + " -> ";
+        //s += "(" + string(PointAIndex) + ", " + string(PointBIndex) + ")" + " -> ";
         
         localMinCost += costsGrid[PointAIndex, PointBIndex];
         
@@ -50,10 +50,10 @@ if (level == N)
         
         PointAIndex = PointBIndex;
     }    
-    show_debug_message("Permutation:" + s + ". Local: " + string(localMinCost) + ". Global: " + string(global.minCost));
+    //show_debug_message("Permutation:" + s + ". Local: " + string(localMinCost) + ". Global: " + string(global.minCost));
     global.minCost = min(global.minCost, localMinCost);    
     
-    var s = "";
+    /*var s = "";
     for (var j = 1; j < array_length_1d(path); j++)
     {
         if j > 1
@@ -61,7 +61,7 @@ if (level == N)
         
         s += "(" + string(path[j]) + ")";   
     }
-    show_debug_message("::: Path ::: " + s);
+    show_debug_message("::: Path ::: " + s);*/
     
     
     /*for (var i = 0; i < ds_list_size(ListOfGoals); i ++)

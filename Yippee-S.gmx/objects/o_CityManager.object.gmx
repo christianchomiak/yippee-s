@@ -27,6 +27,18 @@
             <kind>1</kind>
             <string>///Creation
 global.CityManager = self.id;
+depth = -10;
+
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+enum phase 
+{
+    init,
+    selection,
+    movement,
+    results
+}
+global.CityManager.resultsobject = noone;
 
 //random_set_seed(0);
 //randomize();
@@ -66,8 +78,13 @@ maxNumGoals = 3;
 minNumSecGoals = 1;
 maxNumSecGoals = 3;
 
+collectedPois = 0;
+totalPois = 0;
+
 global.CurrentLevel = 0;
-f_LoadNewLevel();
+
+f_ChangePhase(phase.init);
+//f_LoadNewLevel();
 
 /*f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
                              irandom_range(minNumCol, maxNumCol), 
@@ -102,7 +119,7 @@ DebugMode = false;
             <string>///Keyboard input
 if keyboard_check_pressed(vk_escape)
 {
-    game_end();
+    //game_end();
     room_goto(0);
 }
 else if keyboard_check_pressed(ord('G'))
@@ -122,7 +139,12 @@ else if keyboard_check_pressed(vk_space) //if car.HasArrived and
                      irandom_range(minNumGoals, maxNumGoals),
                      irandom_range(minNumSecGoals, maxNumSecGoals),);
 else if keyboard_check_pressed(vk_enter)
-    f_LoadNewLevel();
+{
+    if global.CityManager.currentPhase == phase.results
+       f_ChangePhase(phase.init);
+}
+
+    //f_LoadNewLevel();
     /*f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
                                  irandom_range(minNumCol, maxNumCol),                                  
                                  random_range(MinTraf, MaxTraf),  
@@ -159,12 +181,11 @@ else if keyboard_check_pressed(vk_enter)
             <kind>1</kind>
             <string>///PHASES
 
-if global.CityManager.IsSelectionPhase and 
+if global.CityManager.currentPhase == phase.selection and 
    f_CheckIfAllGoalsAreInPath() // f_CheckIfTileIsInPath(global.CityManager.CityGrid[DestinationColumn, DestinationRow])
 {
-    global.CityManager.IsSelectionPhase = false;
-    global.CityManager.UsingGPSView = false;
     global.CityManager.SelectedPathCost = f_GetSelectedPathCost();
+    f_ChangePhase(phase.movement);
 }
 </string>
           </argument>
@@ -220,7 +241,7 @@ ds_list_destroy(ListOfSecondaryGoals);
           <argument>
             <kind>1</kind>
             <string>
-if global.CityManager.UsingGPSView
+if global.CityManager.currentPhase == phase.selection //global.CityManager.UsingGPSView
 {
     f_DrawGrid(StartingX, StartingY, StartingX + NumberOfColumns * CellSize, StartingY + NumberOfRows * CellSize, CellSize, 0, 0, c_black, 1);
     //(s_Destiny, 0, DestinationPositionX, DestinationPositionY);
@@ -265,22 +286,22 @@ else
     //draw_sprite_ext(s_Marker, 0, DestinationPositionX, DestinationPositionY, 1, 1, 0, c_red, 0.5);
 }
 
-    
 
-draw_text(room_width / 2, room_height * 0.025, "Distance: " + string(ds_list_size(global.CityManager.SelectedPath) - 1));
-draw_text(room_width / 2, room_height * 0.045, "Time: " + string(global.CityManager.AccumulatedTime));
-draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.CityManager.CellSize));
-
-if car.HasArrived
-{
-    draw_text(room_width * 0.5, room_height * 0.92, "ARRIVED!");
-}
-
-draw_set_halign(fa_center);
-draw_set_valign(fa_middle);
-draw_text(room_width * 0.5, room_height * 0.95, "Best Path: " + string(BestTime / 2) + " | Player Path: " + string(SelectedPathCost / 2));
+//draw_text(room_width * 0.5, room_height * 0.95, "Best Path: " + string(BestTime / 2) + " | Player Path: " + string(SelectedPathCost / 2));
 //"Best: " + string(BestTime) + 
-depth = -10;
+
+
+/*if car.HasArrived
+{
+    //depth = -250;    
+    
+    //draw_text(room_width / 2, room_height * 0.025, "Distance: " + string(ds_list_size(global.CityManager.SelectedPath) - 1));
+    //draw_text(room_width / 2, room_height * 0.045, "Time: " + string(global.CityManager.AccumulatedTime));
+    //draw_text(room_width / 2, room_height * 0.065, "Cell size: " + string(global.CityManager.CellSize));
+    //draw_text(room_width * 0.5, room_height * 0.92, "ARRIVED!");
+}*/
+
+
 </string>
           </argument>
         </arguments>

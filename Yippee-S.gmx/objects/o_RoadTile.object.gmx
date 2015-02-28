@@ -53,7 +53,7 @@ currentHighlightDirection = 5;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if global.CityManager.UsingGPSView
+            <string>if global.CityManager.currentPhase == phase.selection //global.CityManager.UsingGPSView
     sprite_index = s_RoadDummy;
 else
     sprite_index = s_Road;
@@ -79,7 +79,7 @@ else
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if !global.CityManager.IsSelectionPhase
+            <string>if global.CityManager.currentPhase != phase.selection //!global.CityManager.IsSelectionPhase
     exit;
 
 //Check if we are repeating a tile
