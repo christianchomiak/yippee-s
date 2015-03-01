@@ -56,6 +56,7 @@ f_ResetCar(self.id, 0, 0, 0);
             <kind>1</kind>
             <string>if global.CityManager.currentPhase == phase.selection //global.CityManager.UsingGPSView
 {
+    image_blend = c_white;
     sprite_index = s_Car;
     image_xscale = (global.CityManager.CellSize / sprite_get_width(sprite_index)) * 0.15;  
     image_yscale = image_xscale;
@@ -63,8 +64,9 @@ f_ResetCar(self.id, 0, 0, 0);
 }
 else
 {
-    sprite_index = s_CarAlt;
-    image_xscale = (global.CityManager.CellSize / sprite_get_width(sprite_index)) * 0.35; 
+    image_blend = c_white;
+    sprite_index = s_NewCar; // s_CarAlt;
+    image_xscale = (global.CityManager.CellSize / sprite_get_width(sprite_index)) * 0.45; 
     image_yscale = image_xscale;
     
     //depth = global.CityManager.GPSCarDepth - (y / room_height);
@@ -94,7 +96,7 @@ else
             <string>if global.CityManager.currentPhase == phase.selection
     exit;
 
-if keyboard_check(vk_shift)
+if keyboard_check(vk_space)
     Turbo = 5;
 else
     Turbo = 2.5;

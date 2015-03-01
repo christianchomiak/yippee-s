@@ -27,6 +27,7 @@
     <sprite>sprites\s_Tree</sprite>
     <sprite>sprites\s_Logo</sprite>
     <sprite>sprites\s_ResultsBg</sprite>
+    <sprite>sprites\s_NewCar</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>

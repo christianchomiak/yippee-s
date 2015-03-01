@@ -53,13 +53,23 @@ visible = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>currentTime += f_GetDeltaTime();
-
-if currentTime &gt;= timeUntilShow
-{
-    visible = true;
-    currentTime = timeUntilShow;
+            <string>if keyboard_check_pressed(vk_space)
+{    
+    f_ChangePhase(phase.init);
+    exit;
 }
+
+if !visible
+{
+    currentTime += f_GetDeltaTime();
+    
+    if currentTime &gt;= timeUntilShow
+    {
+        visible = true;
+        currentTime = timeUntilShow;
+    }
+}
+
 </string>
           </argument>
         </arguments>
@@ -92,13 +102,13 @@ f_DrawTextAndUpdateCurrentY("NOXP")
 draw_set_font(fnt_Countdown)
 f_DrawTextAndUpdateCurrentY("A game made for a tutorial.")*/
 
-if f_ButtonPressed("Next Test", room_width * 0.65, room_height * 0.75, 10) 
+if f_ButtonPressed("Next Test", global.screen_width * 0.675, global.screen_height * 0.71, 10) 
 {
     //go to next level
     f_ChangePhase(phase.init);
 }
 
-if f_ButtonPressed("Quit Tests", room_width * 0.35, room_height * 0.75, 10) 
+if f_ButtonPressed("Quit Tests", global.screen_width * 0.325, global.screen_height * 0.71, 10) 
 {
     room_goto(0);
 }
@@ -132,7 +142,7 @@ var ButtonText = string(ceil(currentTime));
 var BoxTop = room_height * 0.15; // y - (string_height(ButtonText) * 0.5)//- (Margin * 2.5)
 var BoxBottom = room_height * 0.85;
 var BoxLeft = room_width * 0.15;
-var BoxRight = room_width * 0.85;
+var BoxRight = room_width * 0.875;
 
 draw_set_colour(make_colour_hsv(342,120,56))
 

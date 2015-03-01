@@ -122,7 +122,7 @@ if keyboard_check_pressed(vk_escape)
     //game_end();
     room_goto(0);
 }
-else if keyboard_check_pressed(ord('G'))
+/*else if keyboard_check_pressed(ord('G'))
 {
     global.CityManager.UsingGPSView = !global.CityManager.UsingGPSView;
 }
@@ -133,27 +133,6 @@ else if keyboard_check_pressed(ord('R'))
 else if keyboard_check_pressed(ord('D'))
 {
     DebugMode = !DebugMode;
-}
-/*else if keyboard_check_pressed(vk_space)
-    f_SoftLevelReset(random_range(MinTraf, MaxTraf), 
-                     irandom_range(minNumGoals, maxNumGoals),
-                     irandom_range(minNumSecGoals, maxNumSecGoals));*/
-
-
-    //f_LoadNewLevel();
-    /*f_HardLevelReset(0.75, 0.75, irandom_range(minNumRow, maxNumRow), 
-                                 irandom_range(minNumCol, maxNumCol),                                  
-                                 random_range(MinTraf, MaxTraf),  
-                                 irandom_range(minNumGoals, maxNumGoals)
-                     );*/
-
-/*for (var r = 0; r &lt; 5; r++)
-{
-    for (var c = 0; c &lt; 7; c++)
-    {
-        
-        CityGrid[c, r]
-    }
 }*/
 </string>
           </argument>
